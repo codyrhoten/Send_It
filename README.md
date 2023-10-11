@@ -1,7 +1,7 @@
 ### To Start
 
-Native: ```sh npx expo start``` Expo project
-Web: ```sh npx next dev``` Next.js project
+Native: ```npx expo start``` Expo project
+Web: ```npx next dev``` Next.js project
 
 - [IMPORTANT INFO ABOUT THIS CONFIGURATION OF EXPO + NEXT.JS](https://docs.expo.dev/guides/using-nextjs/)
 
