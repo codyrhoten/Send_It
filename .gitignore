@@ -1,35 +1,46 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
-
-# dependencies
-node_modules/
-
-# Expo
-.expo/
-dist/
-web-build/
-
-# Native
-*.orig.*
+# @generated: @expo/next-adapter@2.1.0
+node_modules/**/*
+.expo/*
+npm-debug.*
 *.jks
 *.p8
 *.p12
 *.key
 *.mobileprovision
-
-# Metro
-.metro-health-check*
+*.orig.*
+web-build/
+web-report/
 
 # debug
-npm-debug.*
-yarn-debug.*
-yarn-error.*
+yarn-debug.log*
+yarn-error.log*
 
 # macOS
 .DS_Store
-*.pem
 
-# local env files
-.env*.local
+# misc
+.DS_Store
+.env*
 
-# typescript
-*.tsbuildinfo
+.next
+
+# @generated: @expo/next-adapter@2.1.52
+/.expo/*
+# Expo Web
+/web-build/*
+# Expo Native
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+# Next.js
+/.next/*
+/out/
+# Next.js production
+/build/
+# Next.js dependencies
+/.pnp
+.pnp.js
+# @end @expo/next-adapter
