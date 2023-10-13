@@ -6,66 +6,67 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AntDesign, SimpleLineIcons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 
-import MapsScreen from '../screens/MapsScreen';
-import FileSystemScreen from '../screens/FileSystemScreen';
-import ClientsScreen from '../screens/ClientsScreen';
-import navigationStrings from '../constants/navigationNames';
+import navigationNames from '../constants/navigationNames';
 import navigationSizes from '../constants/navigationSizes';
-
+import SwapScreen from '../screens/main/swap';
+import LoanScreen from '../screens/main/loan';
+import AssetsScreen from '../screens/main/assets';
 
 const Tab = createBottomTabNavigator();
 
-function TabRoutes() {
+export default function TabRoutes() {
     const insets = useSafeAreaInsets();
 
     return (
         <Tab.Navigator
-            initialRouteName={navigationStrings.HOME}
+            initialRouteName={navigationNames.TAB_MAIN}
             screenOptions={{
                 headerShown: false,
                 tabBarActiveTintColor: 'black',
                 tabBarInactiveTintColor: 'gray',
-                tabBarBackground: () => (
-                    <BlurView tint="light" intensity={70} style={StyleSheet.absoluteFill} />
-                ),
+                tabBarBackground: () => <BlurView tint="light" intensity={70} style={StyleSheet.absoluteFill} />,
                 tabBarStyle: {
                     backgroundColor: 'transparent',
-                    borderTopWidth: 0,
                     position: 'absolute',
+                    borderTopWidth: 0,
                     bottom: -10,
-                    height: 10 + navigationSizes.TAB_BAR_HEIGHT + insets.bottom
+                    height: 10 + navigationSizes.TAB_BAR_HEIGHT + insets.bottom,
+                    width: '100%',
+                    shadowOffset: {
+                        width: 0,
+                        height: 12,
+                    },
+                    shadowOpacity: 0.3,
+                    shadowRadius: 16.0,
+                    elevation: 24,
+                    paddingTop: 10,
+                    zIndex: 0,
                 },
             }}
         >
             <Tab.Screen
-                name={navigationStrings.HOME}
-                component={HomeStackComponent}
+                name={navigationNames.TAB_MAIN}
+                component={MainStackComponent}
                 options={{
                     title: 'Swap',
-                    tabBarIcon: ({ focused }) => {
-                        return <AntDesign name="swap" size={24} color={focused ? 'black' : 'grey'} />
-                    }
+                    tabBarIcon: ({ focused }) => <AntDesign name="swap" size={24} color={focused ? 'black' : 'grey'} />
                 }}
             />
             <Tab.Screen
-                name={navigationStrings.EXPLORE}
-                component={ExploreStackComponent}
+                name={navigationNames.TAB_LOAN}
+                component={LoanStackComponent}
                 options={{
                     title: 'Loan',
-                    tabBarIcon: ({ focused }) => {
-                        return <AntDesign name="bank" size={24} color={focused ? 'black' : 'grey'} />
-                    }
+                    tabBarIcon: ({ focused }) => <AntDesign name="bank" size={24} color={focused ? 'black' : 'grey'} />
                 }}
             />
 
             <Tab.Screen
-                name={navigationStrings.PROFILE}
-                component={PorfileStackComponent}
+                name={navigationNames.TAB_ASSETS}
+                component={AssetsStackComponent}
                 options={{
                     title: 'Assets',
-                    tabBarIcon: ({ focused }) => {
-                        return <SimpleLineIcons name="wallet" size={24} color={focused ? 'black' : 'grey'} />
-                    }
+                    tabBarIcon: ({ focused }) => <SimpleLineIcons name="wallet" size={24} color={focused ? 'black' : 'grey'} />
                 }}
             />
 
@@ -73,38 +74,32 @@ function TabRoutes() {
     )
 }
 
-export default TabRoutes;
 
-
-
-
-const ExploreStack = createStackNavigator();
-export function ExploreStackComponent() {
+const MainStack = createStackNavigator();
+function MainStackComponent() {
     return (
-        <ExploreStack.Navigator screenOptions={{ headerShown: false }} >
-            <ExploreStack.Screen name={'ExploreMapsTab'} component={MapsScreen} />
-            {/* <ExploreStack.Screen name={navigationStrings.SEARCH} component={FileSystemScreen} /> */}
-        </ExploreStack.Navigator>
+        <MainStack.Navigator initialRouteName={navigationNames.SCREEN_SWAP} screenOptions={{ headerShown: false }} >
+            <MainStack.Screen name={navigationNames.SCREEN_SWAP} component={SwapScreen} />
+        </MainStack.Navigator>
     );
 }
 
 
-const HomeStack = createStackNavigator();
-export function HomeStackComponent() {
+const LoanStack = createStackNavigator();
+function LoanStackComponent() {
     return (
-        <HomeStack.Navigator initialRouteName='HomeFileSystemTab' screenOptions={{ headerShown: false }} >
-            {/* <HomeStack.Screen name={navigationStrings.HOME} component={MapsScreen} /> */}
-            <HomeStack.Screen name={'HomeFileSystemTab'} component={FileSystemScreen} />
-        </HomeStack.Navigator>
+        <LoanStack.Navigator screenOptions={{ headerShown: false }} >
+            <LoanStack.Screen name={navigationNames.SCREEN_LOAN} component={LoanScreen} />
+        </LoanStack.Navigator>
     );
 }
 
-const PorfileStack = createStackNavigator();
-export function PorfileStackComponent() {
+
+const AssetsStack = createStackNavigator();
+function AssetsStackComponent() {
     return (
-        <PorfileStack.Navigator screenOptions={{ headerShown: false }} >
-            <PorfileStack.Screen name={'PorfileClientsTab'} component={ClientsScreen} />
-            {/* <PorfileStack.Screen name={navigationStrings.EDIT_PROFILE} component={FileSystemScreen} /> */}
-        </PorfileStack.Navigator>
+        <AssetsStack.Navigator screenOptions={{ headerShown: false }} >
+            <AssetsStack.Screen name={navigationNames.SCREEN_ASSETS} component={AssetsScreen} />
+        </AssetsStack.Navigator>
     );
 }

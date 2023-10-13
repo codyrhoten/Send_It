@@ -1,3 +1,3 @@
 export default {
-    TAB_BAR_HEIGHT: 40
-}
+    TAB_BAR_HEIGHT: 40,
+};
