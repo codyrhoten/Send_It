@@ -11,16 +11,21 @@ export default {
         screens: {
             Root: {
                 screens: {
-                    TabOne: {
+                    Maps: {
                         screens: {
-                            TabOneScreen: 'one',
-                        },
+                            MapsScreen: 'maps'
+                        }
                     },
-                    TabTwo: {
+                    FileSystem: {
                         screens: {
-                            TabTwoScreen: 'two',
-                        },
+                            FileSystemScreen: 'filesystem'
+                        }
                     },
+                    Clients: {
+                        screens: {
+                            ClientsScreen: 'clients'
+                        }
+                    }
                 },
             },
             NotFound: '*',
