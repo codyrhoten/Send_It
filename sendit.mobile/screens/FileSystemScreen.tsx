@@ -1,19 +1,21 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackHeaderProps } from '@react-navigation/stack';
+import { DrawerNavigationOptions } from '@react-navigation/drawer';
 
 import { Text, View } from '../components/Themed';
 import MenuIcon from '../components/MenuIcon';
-import { useEffect } from 'react';
 
 export default function FileSystemScreen() {
     const navigation = useNavigation();
 
     useEffect(() => {
         navigation.setOptions({
+            headerShown: true,
+            title: '',
             headerLeft: (props: StackHeaderProps) => (<MenuIcon />)
-        });
+        } as DrawerNavigationOptions);
     });
 
     return (
