@@ -408,7 +408,8 @@ yarn-error.log*
 
 
 # @generated: @expo/next-adapter@2.1.0
-.expo/*
+.expo/
+ios/
 *.jks
 *.p8
 *.p12
@@ -419,8 +420,7 @@ web-build/
 web-report/
 
 
-.next
-.next/*
+.next/
 /out/
 # Next.js production
 /build/
