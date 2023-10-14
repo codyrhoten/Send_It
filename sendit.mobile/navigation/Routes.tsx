@@ -16,7 +16,7 @@ function Routes({ colorScheme }) {
                     component={TabRoutes}
                     name={navigationNames.DRAWER_MAIN}
                     options={{
-                        title: 'Swap',
+                        title: 'Cash flow',
                         drawerIcon: ({ focused }) => <AntDesign name="swap" size={24} color={focused ? 'black' : 'grey'} />
                     }}
                 />
