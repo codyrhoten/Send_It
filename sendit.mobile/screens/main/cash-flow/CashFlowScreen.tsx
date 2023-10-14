@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { StyleSheet, Button, Text, View, TextInput, Pressable } from 'react-native';
+import { useState, useEffect, useRef } from 'react';
+import { StyleSheet, Button, Text, View, TextInput, Pressable, Modal, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackHeaderProps } from '@react-navigation/stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -9,17 +9,22 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Location from "expo-location";
 import { BlurView } from 'expo-blur';
 
+import { useKeyboardHeight } from '@/hooks';
 import MenuIcon from '@/components/MenuIcon';
 import { MainConstants } from '../MainConstants';
+import { BottomModalComponent } from '@/components';
+import { CashFlowPicker } from './components';
 
 export function CashFlowScreen() {
     const navigation = useNavigation();
     const insets = useSafeAreaInsets();
+    const keyboardHeight = useKeyboardHeight();
 
-    const [currentLocation, setCurrentLocation] = React.useState(null);
-    const [initialRegion, setInitialRegion] = React.useState(null);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [currentLocation, setCurrentLocation] = useState(null);
+    const [initialRegion, setInitialRegion] = useState(null);
 
-    React.useEffect(() => {
+    useEffect(() => {
         navigation.setOptions({
             headerTransparent: true,
             title: 'Send It!',
@@ -32,7 +37,7 @@ export function CashFlowScreen() {
         getLocation();
     }, []);
 
-    const map: React.LegacyRef<MapView> = React.useRef(null);
+    const map: React.LegacyRef<MapView> = useRef(null);
 
     const onZoomInPress = () => {
         map?.current?.getCamera().then((cam: Camera) => {
@@ -69,6 +74,9 @@ export function CashFlowScreen() {
         <View style={styles.centered}>
             {initialRegion && (
                 <>
+                    <BottomModalComponent title='I want to' isVisible={isModalVisible} onClose={() => setIsModalVisible(false)}>
+                        <CashFlowPicker onCloseModal={() => setIsModalVisible(false)}></CashFlowPicker>
+                    </BottomModalComponent>
                     <MapView
                         ref={map}
                         provider={PROVIDER_GOOGLE}
@@ -83,22 +91,40 @@ export function CashFlowScreen() {
                                 title="Your Location" />
                         )}
                     </MapView>
-                    <BlurView style={{ ...styles.actions, bottom: MainConstants.TAB_BAR_HEIGHT + insets.bottom }} tint="light" intensity={50} >
-                        <Text>Some kind of text or icons or something else</Text>
+                    <BlurView
+                        style={{
+                            ...styles.actions,
+                            bottom: keyboardHeight ? insets.bottom : MainConstants.TAB_BAR_HEIGHT + insets.bottom
+                        }}
+                        tint="light"
+                        intensity={50}
+                    >
+                        <View>
+                            <Pressable style={{
+                                paddingVertical: 5,
+                                paddingHorizontal: 5,
+                                borderRadius: 5,
+                                elevation: 3,
+                                backgroundColor: 'black',
+                            }} onPress={() => setIsModalVisible(true)}>
+                                <Text style={styles.findButtonText}>Select coin</Text>
+                            </Pressable>
+                        </View>
                         <TextInput placeholder='Delivery location' style={styles.locationInput} />
                         <View style={styles.actionsButtons}>
-                            <Pressable style={styles.findButton} onPress={onZoomInPress}>
+                            <Pressable style={styles.findButton} onPress={onZoomOutPress}>
                                 <Text style={styles.findButtonText}>Find a delivery</Text>
                             </Pressable>
-                            <Pressable style={styles.optionsButton} onPress={onZoomOutPress}>
+                            <Pressable style={styles.optionsButton} onPress={() => setIsModalVisible(true)}>
                                 <Ionicons name="options-outline" size={24} color="white" />
                             </Pressable>
                         </View>
 
                     </BlurView>
                 </>
-            )}
-        </View>
+            )
+            }
+        </View >
     )
 };
 
@@ -157,5 +183,5 @@ const styles = StyleSheet.create({
         elevation: 3,
         marginLeft: 10,
         backgroundColor: 'black',
-    }
+    },
 });

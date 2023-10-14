@@ -19,6 +19,7 @@ export enum NavigationPaths {
     MAIN_TAB_ASSETS = 'MainTabAssets',
 
     SCREEN_CASH_FLOW = 'ScreenCashFlow',
+    SCREEN_CASH_FLOW_COURIER_SEARCH = 'ScreenCashFlowCourierSearch',
 
     SCREEN_TREASURY = 'ScreenTreasury',
 

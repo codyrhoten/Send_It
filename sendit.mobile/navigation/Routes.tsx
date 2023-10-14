@@ -15,14 +15,15 @@ function Routes({ colorScheme }) {
                     component={MainTabRoutes}
                     name={NavigationPaths.DRAWER_MAIN}
                     options={{
-                        title: 'Cash flow',
-                        drawerIcon: ({ focused }) => <AntDesign name="swap" size={24} color={focused ? 'black' : 'grey'} />
+                        title: 'Home',
+                        drawerIcon: ({ focused }) => <AntDesign name="home" size={24} color={focused ? 'black' : 'grey'} />
                     }}
                 />
                 <Drawer.Screen
                     component={SwapScreen}
                     name={NavigationPaths.DRAWER_SWAP}
                     options={{
+                        title: 'Swap',
                         drawerIcon: ({ focused }) => <FontAwesome5 name="coins" size={24} color={focused ? 'black' : 'grey'} />
                     }}
                 />
@@ -30,6 +31,7 @@ function Routes({ colorScheme }) {
                     component={SettingsScreen}
                     name={NavigationPaths.DRAWER_SETTINGS}
                     options={{
+                        title: 'Settings',
                         drawerIcon: ({ focused }) => <AntDesign name="setting" size={24} color={focused ? 'black' : 'grey'} />
                     }}
                 />

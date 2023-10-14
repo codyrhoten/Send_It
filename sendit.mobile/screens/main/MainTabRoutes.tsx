@@ -24,6 +24,7 @@ export function MainTabRoutes() {
             initialRouteName={NavigationPaths.MAIN_TAB_CASH_FLOW}
             screenOptions={{
                 headerShown: false,
+                tabBarHideOnKeyboard: true,
                 tabBarActiveTintColor: 'black',
                 tabBarInactiveTintColor: 'gray',
                 tabBarBackground: () => <BlurView tint="light" intensity={50} style={StyleSheet.absoluteFill} />,
