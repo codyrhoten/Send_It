@@ -428,3 +428,11 @@ web-report/
 /.pnp
 .pnp.js
 # @end @expo/next-adapter
+
+
+# Hardhat files
+cache
+artifacts
+coverage.json
+typechain
+typechain-types
