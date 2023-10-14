@@ -5,7 +5,6 @@ import { StackHeaderProps } from '@react-navigation/stack';
 import { DrawerNavigationOptions } from '@react-navigation/drawer';
 
 import MenuIcon from '../../../components/MenuIcon';
-import navigationNames from '../../../constants/navigationNames';
 import { ConversationListComponent } from './components';
 
 export function ChatScreen() {
@@ -24,10 +23,6 @@ export function ChatScreen() {
             <Text>
                 This is Chat Screen
             </Text>
-            <Button
-                title="Go to Conversation"
-                onPress={() => navigation.navigate(navigationNames.SCREEN_CHAT_CONVERSATION as never)}
-            />
             <ConversationListComponent navigation={navigation}></ConversationListComponent>
         </View>
     )

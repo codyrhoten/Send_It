@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { StackHeaderProps } from '@react-navigation/stack';
 import { DrawerNavigationOptions } from '@react-navigation/drawer';
 import { AntDesign } from '@expo/vector-icons';
 
-export function ConversationScreen() {
-    const navigation = useNavigation();
+export function ConversationScreen({ route, navigation }) {
+    const { id } = route.params;
 
     useEffect(() => {
         navigation.setOptions({
@@ -23,6 +22,9 @@ export function ConversationScreen() {
         <View style={styles.centered}>
             <Text>
                 This is Conversation Screen
+            </Text>
+            <Text>
+                {id}
             </Text>
         </View>
     )

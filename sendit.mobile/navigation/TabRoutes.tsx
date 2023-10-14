@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AntDesign, SimpleLineIcons, Ionicons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 
-import navigationNames from '../constants/navigationNames';
+import { NavigationNames } from '../constants';
 import navigationSizes from '../constants/navigationSizes';
 import SwapScreen from '../screens/main/swap';
 import LoanScreen from '../screens/main/loan';
@@ -20,7 +20,7 @@ export default function TabRoutes() {
 
     return (
         <Tab.Navigator
-            initialRouteName={navigationNames.TAB_MAIN}
+            initialRouteName={NavigationNames.TAB_MAIN}
             screenOptions={{
                 headerShown: false,
                 tabBarActiveTintColor: 'black',
@@ -46,7 +46,7 @@ export default function TabRoutes() {
             }}
         >
             <Tab.Screen
-                name={navigationNames.TAB_MAIN}
+                name={NavigationNames.TAB_MAIN}
                 component={MainStackComponent}
                 options={{
                     title: 'Cash flow',
@@ -54,7 +54,7 @@ export default function TabRoutes() {
                 }}
             />
             <Tab.Screen
-                name={navigationNames.TAB_LOAN}
+                name={NavigationNames.TAB_LOAN}
                 component={LoanStackComponent}
                 options={{
                     title: 'Treasury',
@@ -63,7 +63,7 @@ export default function TabRoutes() {
             />
 
             <Tab.Screen
-                name={navigationNames.TAB_CHAT}
+                name={NavigationNames.TAB_CHAT}
                 component={ChatStackComponent}
                 options={{
                     title: 'Chats',
@@ -72,7 +72,7 @@ export default function TabRoutes() {
             />
 
             <Tab.Screen
-                name={navigationNames.TAB_ASSETS}
+                name={NavigationNames.TAB_ASSETS}
                 component={AssetsStackComponent}
                 options={{
                     title: 'Assets',
@@ -88,8 +88,8 @@ export default function TabRoutes() {
 const MainStack = createStackNavigator();
 function MainStackComponent() {
     return (
-        <MainStack.Navigator initialRouteName={navigationNames.SCREEN_SWAP} screenOptions={{ headerShown: false }} >
-            <MainStack.Screen name={navigationNames.SCREEN_SWAP} component={SwapScreen} />
+        <MainStack.Navigator initialRouteName={NavigationNames.SCREEN_SWAP} screenOptions={{ headerShown: false }} >
+            <MainStack.Screen name={NavigationNames.SCREEN_SWAP} component={SwapScreen} />
         </MainStack.Navigator>
     );
 }
@@ -99,7 +99,7 @@ const LoanStack = createStackNavigator();
 function LoanStackComponent() {
     return (
         <LoanStack.Navigator screenOptions={{ headerShown: false }} >
-            <LoanStack.Screen name={navigationNames.SCREEN_LOAN} component={LoanScreen} />
+            <LoanStack.Screen name={NavigationNames.SCREEN_LOAN} component={LoanScreen} />
         </LoanStack.Navigator>
     );
 }
@@ -109,8 +109,8 @@ const ChatStack = createStackNavigator();
 function ChatStackComponent() {
     return (
         <ChatStack.Navigator screenOptions={{ headerShown: false }} >
-            <ChatStack.Screen name={navigationNames.SCREEN_CHAT} component={ChatScreen} />
-            <ChatStack.Screen name={navigationNames.SCREEN_CHAT_CONVERSATION} component={ConversationScreen} />
+            <ChatStack.Screen name={NavigationNames.SCREEN_CHAT} component={ChatScreen} />
+            <ChatStack.Screen name={NavigationNames.SCREEN_CHAT_CONVERSATION} component={ConversationScreen} />
         </ChatStack.Navigator>
     );
 }
@@ -120,7 +120,7 @@ const AssetsStack = createStackNavigator();
 function AssetsStackComponent() {
     return (
         <AssetsStack.Navigator screenOptions={{ headerShown: false }} >
-            <AssetsStack.Screen name={navigationNames.SCREEN_ASSETS} component={AssetsScreen} />
+            <AssetsStack.Screen name={NavigationNames.SCREEN_ASSETS} component={AssetsScreen} />
         </AssetsStack.Navigator>
     );
 }
