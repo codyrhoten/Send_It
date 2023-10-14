@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { NavigationNames } from '../../../../constants';
-import { navigate } from '../../../../navigation/RootNavigation';
+
+import { navigate, NavigationPaths } from '@/navigation';
 
 type ItemData = {
     id: string;
@@ -46,7 +46,7 @@ export function ConversationListComponent({ navigation }) {
         return (
             <Item
                 item={item}
-                onPress={() => navigate(NavigationNames.SCREEN_CHAT_CONVERSATION, { id: item.id })}
+                onPress={() => navigate(NavigationPaths.SCREEN_CHAT_CONVERSATION, { id: item.id })}
                 //onPress={() => setSelectedId(item.id)}
                 backgroundColor={backgroundColor}
                 textColor={color}

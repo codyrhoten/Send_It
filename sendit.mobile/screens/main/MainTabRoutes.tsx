@@ -6,32 +6,33 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AntDesign, SimpleLineIcons, Ionicons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 
-import { NavigationNames } from '../constants';
-import navigationSizes from '../constants/navigationSizes';
-import SwapScreen from '../screens/main/swap';
-import LoanScreen from '../screens/main/loan';
-import AssetsScreen from '../screens/main/assets';
-import { ChatScreen, ConversationScreen } from '../screens/main/chat';
+import { NavigationPaths } from '@/navigation';
+import { MainConstants } from './MainConstants';
+import { TreasuryScreen } from './treasury';
+import { AssetsScreen } from './assets';
+import { ChatScreen, ConversationScreen } from './chat';
+import { CashFlowScreen } from './cash-flow';
+
 
 const Tab = createBottomTabNavigator();
 
-export default function TabRoutes() {
+export function MainTabRoutes() {
     const insets = useSafeAreaInsets();
 
     return (
         <Tab.Navigator
-            initialRouteName={NavigationNames.TAB_MAIN}
+            initialRouteName={NavigationPaths.MAIN_TAB_CASH_FLOW}
             screenOptions={{
                 headerShown: false,
                 tabBarActiveTintColor: 'black',
                 tabBarInactiveTintColor: 'gray',
-                tabBarBackground: () => <BlurView tint="light" intensity={70} style={StyleSheet.absoluteFill} />,
+                tabBarBackground: () => <BlurView tint="light" intensity={50} style={StyleSheet.absoluteFill} />,
                 tabBarStyle: {
                     backgroundColor: 'transparent',
                     position: 'absolute',
                     borderTopWidth: 0,
                     bottom: -10,
-                    height: 10 + navigationSizes.TAB_BAR_HEIGHT + insets.bottom,
+                    height: 10 + MainConstants.TAB_BAR_HEIGHT + insets.bottom,
                     width: '100%',
                     shadowOffset: {
                         width: 0,
@@ -46,16 +47,16 @@ export default function TabRoutes() {
             }}
         >
             <Tab.Screen
-                name={NavigationNames.TAB_MAIN}
-                component={MainStackComponent}
+                name={NavigationPaths.MAIN_TAB_CASH_FLOW}
+                component={MainTabCashFlowComponent}
                 options={{
                     title: 'Cash flow',
                     tabBarIcon: ({ focused }) => <AntDesign name="swap" size={24} color={focused ? 'black' : 'grey'} />
                 }}
             />
             <Tab.Screen
-                name={NavigationNames.TAB_LOAN}
-                component={LoanStackComponent}
+                name={NavigationPaths.MAIN_TAB_TREASURY}
+                component={MainTabTreasuryComponent}
                 options={{
                     title: 'Treasury',
                     tabBarIcon: ({ focused }) => <AntDesign name="bank" size={24} color={focused ? 'black' : 'grey'} />
@@ -63,8 +64,8 @@ export default function TabRoutes() {
             />
 
             <Tab.Screen
-                name={NavigationNames.TAB_CHAT}
-                component={ChatStackComponent}
+                name={NavigationPaths.MAIN_TAB_CHAT}
+                component={MainTabChatComponent}
                 options={{
                     title: 'Chats',
                     tabBarIcon: ({ focused }) => <Ionicons name="chatbubbles-outline" size={24} color={focused ? 'black' : 'grey'} />
@@ -72,8 +73,8 @@ export default function TabRoutes() {
             />
 
             <Tab.Screen
-                name={NavigationNames.TAB_ASSETS}
-                component={AssetsStackComponent}
+                name={NavigationPaths.MAIN_TAB_ASSETS}
+                component={MainTabAssetsComponent}
                 options={{
                     title: 'Assets',
                     tabBarIcon: ({ focused }) => <SimpleLineIcons name="wallet" size={24} color={focused ? 'black' : 'grey'} />
@@ -85,42 +86,42 @@ export default function TabRoutes() {
 }
 
 
-const MainStack = createStackNavigator();
-function MainStackComponent() {
+const CashFlowStack = createStackNavigator();
+function MainTabCashFlowComponent() {
     return (
-        <MainStack.Navigator initialRouteName={NavigationNames.SCREEN_SWAP} screenOptions={{ headerShown: false }} >
-            <MainStack.Screen name={NavigationNames.SCREEN_SWAP} component={SwapScreen} />
-        </MainStack.Navigator>
+        <CashFlowStack.Navigator initialRouteName={NavigationPaths.SCREEN_CASH_FLOW}>
+            <CashFlowStack.Screen name={NavigationPaths.SCREEN_CASH_FLOW} component={CashFlowScreen} />
+        </CashFlowStack.Navigator>
     );
 }
 
 
-const LoanStack = createStackNavigator();
-function LoanStackComponent() {
+const TreasuryStack = createStackNavigator();
+function MainTabTreasuryComponent() {
     return (
-        <LoanStack.Navigator screenOptions={{ headerShown: false }} >
-            <LoanStack.Screen name={NavigationNames.SCREEN_LOAN} component={LoanScreen} />
-        </LoanStack.Navigator>
+        < TreasuryStack.Navigator>
+            < TreasuryStack.Screen name={NavigationPaths.SCREEN_TREASURY} component={TreasuryScreen} />
+        </ TreasuryStack.Navigator>
     );
 }
 
 
 const ChatStack = createStackNavigator();
-function ChatStackComponent() {
+function MainTabChatComponent() {
     return (
-        <ChatStack.Navigator screenOptions={{ headerShown: false }} >
-            <ChatStack.Screen name={NavigationNames.SCREEN_CHAT} component={ChatScreen} />
-            <ChatStack.Screen name={NavigationNames.SCREEN_CHAT_CONVERSATION} component={ConversationScreen} />
+        <ChatStack.Navigator>
+            <ChatStack.Screen name={NavigationPaths.SCREEN_CHAT} component={ChatScreen} />
+            <ChatStack.Screen name={NavigationPaths.SCREEN_CHAT_CONVERSATION} component={ConversationScreen} />
         </ChatStack.Navigator>
     );
 }
 
 
 const AssetsStack = createStackNavigator();
-function AssetsStackComponent() {
+function MainTabAssetsComponent() {
     return (
-        <AssetsStack.Navigator screenOptions={{ headerShown: false }} >
-            <AssetsStack.Screen name={NavigationNames.SCREEN_ASSETS} component={AssetsScreen} />
+        <AssetsStack.Navigator>
+            <AssetsStack.Screen name={NavigationPaths.SCREEN_ASSETS} component={AssetsScreen} />
         </AssetsStack.Navigator>
     );
 }

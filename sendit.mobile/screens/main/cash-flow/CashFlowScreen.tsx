@@ -9,10 +9,10 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Location from "expo-location";
 import { BlurView } from 'expo-blur';
 
-import MenuIcon from '../../../components/MenuIcon';
-import navigationSizes from '../../../constants/navigationSizes';
+import MenuIcon from '@/components/MenuIcon';
+import { MainConstants } from '../MainConstants';
 
-export default function SwapScreen() {
+export function CashFlowScreen() {
     const navigation = useNavigation();
     const insets = useSafeAreaInsets();
 
@@ -21,11 +21,10 @@ export default function SwapScreen() {
 
     React.useEffect(() => {
         navigation.setOptions({
-            headerShown: true,
             headerTransparent: true,
             title: 'Send It!',
             headerBackground: () => (
-                <BlurView tint="light" intensity={30} style={StyleSheet.absoluteFill} />
+                <BlurView tint="light" intensity={10} style={StyleSheet.absoluteFill} />
             ),
             headerLeft: (props: StackHeaderProps) => (<MenuIcon />)
         } as DrawerNavigationOptions);
@@ -84,7 +83,7 @@ export default function SwapScreen() {
                                 title="Your Location" />
                         )}
                     </MapView>
-                    <BlurView style={{ ...styles.actions, bottom: navigationSizes.TAB_BAR_HEIGHT + insets.bottom }} tint="light" intensity={70} >
+                    <BlurView style={{ ...styles.actions, bottom: MainConstants.TAB_BAR_HEIGHT + insets.bottom }} tint="light" intensity={50} >
                         <Text>Some kind of text or icons or something else</Text>
                         <TextInput placeholder='Delivery location' style={styles.locationInput} />
                         <View style={styles.actionsButtons}>

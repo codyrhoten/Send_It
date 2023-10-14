@@ -1,32 +1,27 @@
 import { useEffect } from 'react';
-import { Button, StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackHeaderProps } from '@react-navigation/stack';
 import { DrawerNavigationOptions } from '@react-navigation/drawer';
 
-import { NavigationNames } from '../../../constants';
-import MenuIcon from '../../../components/MenuIcon';
+import MenuIcon from '@/components/MenuIcon';
 
-export default function AssetsScreen() {
+export function TreasuryScreen() {
     const navigation = useNavigation();
 
     useEffect(() => {
         navigation.setOptions({
             headerShown: true,
-            title: 'Assets',
+            title: 'Treasury',
             headerLeft: (props: StackHeaderProps) => (<MenuIcon />)
         } as DrawerNavigationOptions);
     });
 
     return (
         <View style={styles.centered}>
-            {/* <Text>
-                This is Clients Screen
+            <Text>
+
             </Text>
-            <Button
-                title="Go to Home"
-                onPress={() => navigation.navigate(NavigationNames.TAB_MAIN_SWAP)}
-            /> */}
         </View>
     )
 };

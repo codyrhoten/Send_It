@@ -1,11 +1,9 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 
-import { NavigationNames } from '../constants';
-import TabRoutes from './TabRoutes';
-import SettingsScreen from '../screens/settings';
-import { navigationRef } from './RootNavigation';
+import { MainTabRoutes, SettingsScreen, SwapScreen } from '@/screens';
+import { navigationRef, NavigationPaths } from './RootNavigation';
 
 const Drawer = createDrawerNavigator();
 
@@ -14,18 +12,24 @@ function Routes({ colorScheme }) {
         <NavigationContainer ref={navigationRef} theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
             <Drawer.Navigator screenOptions={{ headerShown: false }} >
                 <Drawer.Screen
-                    component={TabRoutes}
-                    name={NavigationNames.DRAWER_MAIN}
+                    component={MainTabRoutes}
+                    name={NavigationPaths.DRAWER_MAIN}
                     options={{
                         title: 'Cash flow',
                         drawerIcon: ({ focused }) => <AntDesign name="swap" size={24} color={focused ? 'black' : 'grey'} />
                     }}
                 />
                 <Drawer.Screen
-                    component={SettingsScreen}
-                    name={NavigationNames.DRAWER_SETTINGS}
+                    component={SwapScreen}
+                    name={NavigationPaths.DRAWER_SWAP}
                     options={{
-                        title: 'Settings',
+                        drawerIcon: ({ focused }) => <FontAwesome5 name="coins" size={24} color={focused ? 'black' : 'grey'} />
+                    }}
+                />
+                <Drawer.Screen
+                    component={SettingsScreen}
+                    name={NavigationPaths.DRAWER_SETTINGS}
+                    options={{
                         drawerIcon: ({ focused }) => <AntDesign name="setting" size={24} color={focused ? 'black' : 'grey'} />
                     }}
                 />

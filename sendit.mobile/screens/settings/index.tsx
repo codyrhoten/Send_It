@@ -1,7 +1,22 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { DrawerNavigationOptions } from '@react-navigation/drawer';
+import { StackHeaderProps } from '@react-navigation/stack';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 
-export default function SettingsScreen({ navigation }) {
+export function SettingsScreen({ navigation }) {
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerShown: true,
+            title: 'Settings',
+            headerLeft: (props: StackHeaderProps) =>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <AntDesign name="arrowleft" size={24} style={{ marginLeft: 25 }} />
+                </TouchableOpacity>
+        } as DrawerNavigationOptions);
+    });
+
     return (
         <View style={styles.container}>
             <SafeAreaView>
@@ -24,5 +39,6 @@ export default function SettingsScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        padding: 25
     },
 });
