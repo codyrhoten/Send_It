@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AntDesign, SimpleLineIcons } from '@expo/vector-icons';
+import { AntDesign, SimpleLineIcons, Ionicons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 
 import navigationNames from '../constants/navigationNames';
@@ -11,6 +11,7 @@ import navigationSizes from '../constants/navigationSizes';
 import SwapScreen from '../screens/main/swap';
 import LoanScreen from '../screens/main/loan';
 import AssetsScreen from '../screens/main/assets';
+import { ChatScreen, ConversationScreen } from '../screens/main/chat';
 
 const Tab = createBottomTabNavigator();
 
@@ -48,7 +49,7 @@ export default function TabRoutes() {
                 name={navigationNames.TAB_MAIN}
                 component={MainStackComponent}
                 options={{
-                    title: 'Swap',
+                    title: 'Cash flow',
                     tabBarIcon: ({ focused }) => <AntDesign name="swap" size={24} color={focused ? 'black' : 'grey'} />
                 }}
             />
@@ -56,8 +57,17 @@ export default function TabRoutes() {
                 name={navigationNames.TAB_LOAN}
                 component={LoanStackComponent}
                 options={{
-                    title: 'Loan',
+                    title: 'Treasury',
                     tabBarIcon: ({ focused }) => <AntDesign name="bank" size={24} color={focused ? 'black' : 'grey'} />
+                }}
+            />
+
+            <Tab.Screen
+                name={navigationNames.TAB_CHAT}
+                component={ChatStackComponent}
+                options={{
+                    title: 'Chats',
+                    tabBarIcon: ({ focused }) => <Ionicons name="chatbubbles-outline" size={24} color={focused ? 'black' : 'grey'} />
                 }}
             />
 
@@ -91,6 +101,17 @@ function LoanStackComponent() {
         <LoanStack.Navigator screenOptions={{ headerShown: false }} >
             <LoanStack.Screen name={navigationNames.SCREEN_LOAN} component={LoanScreen} />
         </LoanStack.Navigator>
+    );
+}
+
+
+const ChatStack = createStackNavigator();
+function ChatStackComponent() {
+    return (
+        <ChatStack.Navigator screenOptions={{ headerShown: false }} >
+            <ChatStack.Screen name={navigationNames.SCREEN_CHAT} component={ChatScreen} />
+            <ChatStack.Screen name={navigationNames.SCREEN_CHAT_CONVERSATION} component={ConversationScreen} />
+        </ChatStack.Navigator>
     );
 }
 
