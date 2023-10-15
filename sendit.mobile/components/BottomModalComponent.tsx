@@ -18,7 +18,7 @@ export function BottomModalComponent({ isVisible, children, onClose, title = und
             borderTopLeftRadius: 35,
             borderTopRightRadius: 35,
             position: 'absolute',
-            //overflow: 'hidden',
+            overflow: 'hidden',
             height: height ?? 'auto',
             width: '100%',
             bottom: keyboardHeight,

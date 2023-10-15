@@ -3,7 +3,7 @@ import { View, Text, Pressable, StyleSheet, Image, TextInput, TouchableOpacity }
 import Toggle from "react-native-toggle-element";
 import DropDownPicker from 'react-native-dropdown-picker';
 import { SvgUri } from 'react-native-svg';
-import { Feather } from '@expo/vector-icons';
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 
 const cryptoList = [
     {
@@ -28,35 +28,35 @@ const currencyList = [
         value: 'usd',
         alpha2code: 'us',
         title: '$ United States dollar',
-        icon: () => <Image source={{ uri: 'https://flagcdn.com/w20/us.png' }} style={{ width: 20, height: 11 }} />
+        icon: () => <Image source={{ uri: 'https://flagcdn.com/h20/us.png' }} style={{ width: 30, height: 20 }} />
     },
     {
         label: '€ EUR',
         value: 'eur',
         alpha2code: 'eu',
         title: '€ Euro',
-        icon: () => <Image source={{ uri: 'https://flagcdn.com/w20/eu.png' }} style={{ width: 20, height: 11 }} />
+        icon: () => <Image source={{ uri: 'https://flagcdn.com/h20/eu.png' }} style={{ width: 30, height: 20 }} />
     },
     {
         label: '$ CAD',
         value: 'cad',
         alpha2code: 'ca',
         title: '$ Canadian dollar',
-        icon: () => <Image source={{ uri: 'https://flagcdn.com/w20/ca.png' }} style={{ width: 20, height: 11 }} />
+        icon: () => <Image source={{ uri: 'https://flagcdn.com/h20/ca.png' }} style={{ width: 30, height: 20 }} />
     },
     {
         label: '¥ CNY',
         value: 'cny',
         alpha2code: 'cn',
         title: '¥ Chinese yuan',
-        icon: () => <Image source={{ uri: 'https://flagcdn.com/w20/cn.png' }} style={{ width: 20, height: 11 }} />
+        icon: () => <Image source={{ uri: 'https://flagcdn.com/h20/cn.png' }} style={{ width: 30, height: 20 }} />
     },
     {
         label: '฿ THB',
         value: 'thb',
         alpha2code: 'th',
         title: '฿ Thai baht',
-        icon: () => <Image source={{ uri: 'https://flagcdn.com/w20/th.png' }} style={{ width: 20, height: 11 }} />
+        icon: () => <Image source={{ uri: 'https://flagcdn.com/h20/th.png' }} style={{ width: 30, height: 20 }} />
     }
 ];
 
@@ -64,10 +64,17 @@ export function CashFlowPicker({ onCloseModal }) {
     const [isSelling, setIsSelling] = useState(false);
 
     const [cryptoIsOpen, setCryptoIsOpen] = useState(false);
-    const [cryptoSelected, setCryptoSelected] = useState<string>(cryptoList[0].value);
+    const [cryptoValueSelected, setCryptoValueSelected] = useState<string>(cryptoList[0].value);
 
     const [currencyIsOpen, setCurrencyIsOpen] = useState(false);
-    const [currencySelected, setCurrencySelected] = useState(currencyList[0].value);
+    const [currencyValueSelected, setCurrencyValueSelected] = useState(currencyList[0].value);
+
+    const cryptoSelected = cryptoList.find(p => p.value === currencyValueSelected);
+    const currencySelected = currencyList.find(p => p.value === currencyValueSelected);
+
+    const onApplyButtonClick = () => {
+        onCloseModal();
+    }
 
     return (
         <View style={styles.content}>
@@ -116,10 +123,10 @@ export function CashFlowPicker({ onCloseModal }) {
                                     <DropDownPicker
                                         searchable={true}
                                         open={cryptoIsOpen}
-                                        value={cryptoSelected}
+                                        value={cryptoValueSelected}
                                         items={cryptoList}
                                         setOpen={setCryptoIsOpen}
-                                        setValue={setCryptoSelected}
+                                        setValue={setCryptoValueSelected}
                                         placeholder='Crypto'
                                         searchPlaceholder='Search...'
                                         listMode='MODAL'
@@ -186,17 +193,17 @@ export function CashFlowPicker({ onCloseModal }) {
 
 
 
-                        <View style={{ marginBottom: 30 }}>
+                        <View style={{ marginBottom: 20 }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4, zIndex: 100 }}>
                                 <Text style={{ color: '#666' }}>Fiat </Text>
                                 <View style={{ flexGrow: 1 }}>
                                     <DropDownPicker
                                         searchable={true}
                                         open={currencyIsOpen}
-                                        value={currencySelected}
+                                        value={currencyValueSelected}
                                         items={currencyList}
                                         setOpen={setCurrencyIsOpen}
-                                        setValue={setCurrencySelected}
+                                        setValue={setCurrencyValueSelected}
                                         placeholder='Fiat'
                                         searchPlaceholder='Search...'
                                         listMode='MODAL'
@@ -219,28 +226,19 @@ export function CashFlowPicker({ onCloseModal }) {
                                         renderListItem={itemProps => {
                                             return (
                                                 <TouchableOpacity
-                                                    onPress={() => { setCurrencySelected(itemProps.value); setCurrencyIsOpen(false) }}
+                                                    onPress={() => { setCurrencyValueSelected(itemProps.value); setCurrencyIsOpen(false) }}
                                                     style={{
+                                                        padding: 10,
                                                         flexDirection: 'row',
                                                         justifyContent: 'center',
                                                         alignItems: 'center',
-                                                        padding: 5,
-                                                        marginLeft: 10,
-                                                        borderTopWidth: itemProps.isSelected ? 1 : 0,
-                                                        borderBottomWidth: itemProps.isSelected ? 1 : 0,
-                                                        borderColor: '#cccc',
+                                                        // borderTopWidth: itemProps.isSelected ? 1 : 0,
+                                                        // borderBottomWidth: itemProps.isSelected ? 1 : 0,
+                                                        // borderColor: '#ccc8',
                                                     }}>
                                                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-                                                        <Image source={{ uri: `https://flagcdn.com/w20/${itemProps.item.alpha2code}.png` }} style={{ width: 20, height: 11 }} />
-                                                        <View
-                                                            style={{
-                                                                //backgroundColor: itemProps.value,
-                                                                marginRight: 10,
-                                                                width: 20,
-                                                                height: 20,
-                                                            }}
-                                                        />
-                                                        <Text>{itemProps.item.title}</Text>
+                                                        <Image source={{ uri: `https://flagcdn.com/h20/${itemProps.item.alpha2code}.png` }} style={{ width: 38, height: 20 }} />
+                                                        <Text style={{ marginHorizontal: 10 }}>{itemProps.item.title}</Text>
                                                     </View>
                                                     {itemProps.isSelected === true && (
                                                         <itemProps.TickIconComponent />
@@ -252,7 +250,6 @@ export function CashFlowPicker({ onCloseModal }) {
                                 </View>
                                 <Text style={{ color: '#666' }}>unit price</Text>
                                 <Text style={{ fontSize: 12, color: '#888' }}> (optional)</Text>
-
                             </View>
                             <View style={{ flexDirection: 'row' }}>
                                 <TextInput
@@ -286,9 +283,15 @@ export function CashFlowPicker({ onCloseModal }) {
                             {false && <View>
                                 <Text style={{ marginTop: 5, color: '#f57c71', fontWeight: '600' }}>Invalid</Text>
                             </View>}
+
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Text style={{ fontSize: 12, color: '#666' }}>Approximately you will get</Text>
+                                <MaterialCommunityIcons name="approximately-equal" size={24} color="#888" />
+                                <Text style={{ fontSize: 12, color: '#666' }}>136.51 {currencySelected.label}</Text>
+                            </View>
                         </View>
 
-                        <Pressable style={styles.applyButton} onPress={() => { }}>
+                        <Pressable style={styles.applyButton} onPress={onApplyButtonClick}>
                             <Text style={styles.applyButtonText}>Apply</Text>
                         </Pressable>
                     </View>
@@ -300,21 +303,7 @@ export function CashFlowPicker({ onCloseModal }) {
 
 const styles = StyleSheet.create({
     content: {
-        //marginTop: 10,
-        //marginBottom: 10
-    },
-    dropDown: {
-        backgroundColor: '#fffc',
-        borderColor: '#cccc',
-        zIndex: 55,
-    },
-    numericInput: {
-        width: '100%',
-        backgroundColor: '#fffc',
-        borderColor: '#cccc',
-        padding: 12,
-        borderRadius: 5,
-        borderWidth: 1
+
     },
     applyButton: {
         alignItems: 'center',

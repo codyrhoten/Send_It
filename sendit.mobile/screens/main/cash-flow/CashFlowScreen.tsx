@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Button, Text, View, TextInput, Pressable, Modal, Alert } from 'react-native';
+import { StyleSheet, Button, Text, View, TextInput, Pressable, Modal, Alert, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackHeaderProps } from '@react-navigation/stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -14,6 +14,7 @@ import MenuIcon from '@/components/MenuIcon';
 import { MainConstants } from '../MainConstants';
 import { BottomModalComponent } from '@/components';
 import { CashFlowPicker } from './components';
+import { SvgUri } from 'react-native-svg';
 
 export function CashFlowScreen() {
     const navigation = useNavigation();
@@ -99,17 +100,36 @@ export function CashFlowScreen() {
                         tint="light"
                         intensity={50}
                     >
-                        <View>
-                            <Pressable style={{
-                                paddingVertical: 5,
-                                paddingHorizontal: 5,
-                                borderRadius: 5,
-                                elevation: 3,
-                                backgroundColor: 'black',
-                            }} onPress={() => setIsModalVisible(true)}>
-                                <Text style={styles.findButtonText}>Select coin</Text>
-                            </Pressable>
-                        </View>
+                        <Pressable onPress={() => setIsModalVisible(true)}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={{ marginHorizontal: 10, color: '#888', fontWeight: '500' }}>100 USDT</Text>
+                                <SvgUri uri='https://static.biswap.org/bs/coins/usdt.svg' width={30} height={30} style={{
+                                    left: 3,
+                                    borderRadius: 15, borderWidth: 1, borderColor: '#999c',
+                                    shadowColor: "#000",
+                                    shadowOffset: {
+                                        width: 0,
+                                        height: 2,
+                                    },
+                                    shadowOpacity: 0.25,
+                                    shadowRadius: 3.84,
+                                    elevation: 5,
+                                }} />
+
+                                <SvgUri uri='https://hatscripts.github.io/circle-flags/flags/ca.svg' width={30} height={30} style={{
+                                    left: -3, borderRadius: 15, borderWidth: 1, borderColor: '#999c',
+                                    shadowColor: "#000",
+                                    shadowOffset: {
+                                        width: 0,
+                                        height: 2,
+                                    },
+                                    shadowOpacity: 0.25,
+                                    shadowRadius: 3.84,
+                                    elevation: 5,
+                                }} />
+                                <Text style={{ marginHorizontal: 10, color: '#888', fontWeight: '500' }}>136.51* $ CAD</Text>
+                            </View>
+                        </Pressable>
                         <TextInput placeholder='Delivery location' style={styles.locationInput} />
                         <View style={styles.actionsButtons}>
                             <Pressable style={styles.findButton} onPress={onZoomOutPress}>
@@ -140,48 +160,41 @@ const styles = StyleSheet.create({
     actions: {
         position: 'absolute',
         width: '100%',
-        alignItems: 'center',
-        paddingTop: 20,
+        alignItems: 'stretch',
+        padding: 20,
     },
     locationInput: {
-        width: '90%',
         height: 44,
         padding: 10,
-        marginTop: 20,
-        marginBottom: 10,
+        marginVertical: 18,
         backgroundColor: '#e8e8e8',
         borderRadius: 5,
-        elevation: 3,
+        elevation: 5,
     },
     actionsButtons: {
         flexDirection: 'row',
-        marginBottom: 12,
-        marginLeft: '5%',
-        marginRight: '5%'
     },
     findButton: {
         alignItems: 'center',
         justifyContent: 'center',
         flexGrow: 1,
         paddingVertical: 12,
-        paddingHorizontal: 32,
         borderRadius: 5,
         elevation: 3,
         backgroundColor: 'black',
     },
     findButtonText: {
         fontSize: 16,
-        lineHeight: 21,
         fontWeight: 'bold',
-        letterSpacing: 0.25,
+        letterSpacing: 0.5,
         color: 'white',
     },
     optionsButton: {
-        paddingVertical: 12,
+        justifyContent: 'center',
+        backgroundColor: 'black',
         paddingHorizontal: 12,
         borderRadius: 5,
         elevation: 3,
         marginLeft: 10,
-        backgroundColor: 'black',
     },
 });
