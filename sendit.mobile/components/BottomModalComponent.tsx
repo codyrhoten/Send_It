@@ -3,16 +3,23 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { BlurView } from 'expo-blur';
 import { useKeyboardHeight } from '@/hooks';
 
-export function BottomModalComponent({ isVisible, children, onClose, title = undefined, height = undefined }) {
+export function BottomModalComponent({ isVisible, children, onClose, title = undefined, titleAlign = undefined, height = undefined, blurIntensity = undefined }: {
+    isVisible: boolean,
+    children: any,
+    onClose: (event: any) => void,
+    title?: string,
+    titleAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify' | undefined,
+    height?: number | 'auto' | `${number}%` | null | undefined,
+    blurIntensity?: number | undefined
+}) {
     const keyboardHeight = useKeyboardHeight();
-    console.log(keyboardHeight);
     const styles = StyleSheet.create({
         modalContent: {
             borderTopLeftRadius: 35,
             borderTopRightRadius: 35,
             position: 'absolute',
             //overflow: 'hidden',
-            height: typeof height === 'number' ? height : 'auto',
+            height: height ?? 'auto',
             width: '100%',
             bottom: keyboardHeight,
         },
@@ -32,14 +39,14 @@ export function BottomModalComponent({ isVisible, children, onClose, title = und
             flexGrow: 1,
             fontSize: 18,
             fontWeight: 'bold',
-            textAlign: 'center'
+            textAlign: titleAlign ?? 'center'
         },
     });
 
     return (
         <Modal animationType="slide" transparent={true} visible={isVisible}>
             <View style={styles.modalContent}>
-                <BlurView style={styles.blur} tint="light" intensity={80}>
+                <BlurView style={styles.blur} tint="light" intensity={blurIntensity ?? 80}>
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>{title}</Text>
                         <Pressable onPress={onClose}>

@@ -74,7 +74,7 @@ export function CashFlowScreen() {
         <View style={styles.centered}>
             {initialRegion && (
                 <>
-                    <BottomModalComponent title='I want to' isVisible={isModalVisible} onClose={() => setIsModalVisible(false)}>
+                    <BottomModalComponent title='I want to' isVisible={isModalVisible} onClose={() => setIsModalVisible(false)} titleAlign='left' blurIntensity={100}>
                         <CashFlowPicker onCloseModal={() => setIsModalVisible(false)}></CashFlowPicker>
                     </BottomModalComponent>
                     <MapView
