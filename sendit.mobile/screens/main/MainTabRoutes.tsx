@@ -12,6 +12,8 @@ import { TreasuryScreen } from './treasury';
 import { AssetsScreen } from './assets';
 import { ChatScreen, ConversationScreen } from './chat';
 import { CashFlowScreen } from './cash-flow';
+import { UserHeaderComponent } from '@/components/header/UserHeaderComponent';
+import MenuIcon from '@/components/MenuIcon';
 
 
 const Tab = createBottomTabNavigator();
@@ -90,7 +92,18 @@ export function MainTabRoutes() {
 const CashFlowStack = createStackNavigator();
 function MainTabCashFlowComponent() {
     return (
-        <CashFlowStack.Navigator initialRouteName={NavigationPaths.SCREEN_CASH_FLOW}>
+        <CashFlowStack.Navigator
+            initialRouteName={NavigationPaths.SCREEN_CASH_FLOW}
+            screenOptions={{
+                title: 'Send It!',
+                headerTransparent: true,
+                headerBackground: () => (
+                    <BlurView tint="light" intensity={10} style={StyleSheet.absoluteFill} />
+                ),
+                headerLeft: () => (<MenuIcon />),
+                headerRight: () => <UserHeaderComponent />,
+            }}
+        >
             <CashFlowStack.Screen name={NavigationPaths.SCREEN_CASH_FLOW} component={CashFlowScreen} />
         </CashFlowStack.Navigator>
     );
@@ -100,8 +113,11 @@ function MainTabCashFlowComponent() {
 const TreasuryStack = createStackNavigator();
 function MainTabTreasuryComponent() {
     return (
-        < TreasuryStack.Navigator>
-            < TreasuryStack.Screen name={NavigationPaths.SCREEN_TREASURY} component={TreasuryScreen} />
+        < TreasuryStack.Navigator screenOptions={{
+            title: 'Treasury',
+            headerLeft: () => (<MenuIcon />)
+        }}>
+            <TreasuryStack.Screen name={NavigationPaths.SCREEN_TREASURY} component={TreasuryScreen} />
         </ TreasuryStack.Navigator>
     );
 }
@@ -121,7 +137,10 @@ function MainTabChatComponent() {
 const AssetsStack = createStackNavigator();
 function MainTabAssetsComponent() {
     return (
-        <AssetsStack.Navigator>
+        <AssetsStack.Navigator screenOptions={{
+            title: 'Assets',
+            headerLeft: () => (<MenuIcon />)
+        }}>
             <AssetsStack.Screen name={NavigationPaths.SCREEN_ASSETS} component={AssetsScreen} />
         </AssetsStack.Navigator>
     );

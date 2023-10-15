@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
 import Toggle from "react-native-toggle-element";
 import DropDownPicker from 'react-native-dropdown-picker';
 import { SvgUri } from 'react-native-svg';
@@ -172,7 +172,7 @@ export function CashFlowPicker({ onCloseModal }) {
                                     //value={this.state.myNumber}
                                     maxLength={10}  //setting limit of input
                                 />
-                                <Pressable style={{
+                                <TouchableOpacity style={{
                                     width: 40,
                                     backgroundColor: 'black',
                                     alignItems: 'center',
@@ -184,7 +184,7 @@ export function CashFlowPicker({ onCloseModal }) {
                                         fontWeight: '500',
                                         color: 'white',
                                     }}>Max</Text>
-                                </Pressable>
+                                </TouchableOpacity>
                             </View>
                             {false && <View>
                                 <Text style={{ marginTop: 5, color: '#f57c71', fontWeight: '600' }}>Invalid</Text>
@@ -269,7 +269,7 @@ export function CashFlowPicker({ onCloseModal }) {
                                     //value={this.state.myNumber}
                                     maxLength={10}
                                 />
-                                <Pressable style={{
+                                <TouchableOpacity style={{
                                     width: 40,
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -278,7 +278,7 @@ export function CashFlowPicker({ onCloseModal }) {
                                     elevation: 5,
                                 }} onPress={() => { }}>
                                     <Feather name="refresh-cw" size={14} color="white" />
-                                </Pressable>
+                                </TouchableOpacity>
                             </View>
                             {false && <View>
                                 <Text style={{ marginTop: 5, color: '#f57c71', fontWeight: '600' }}>Invalid</Text>
@@ -291,9 +291,9 @@ export function CashFlowPicker({ onCloseModal }) {
                             </View>
                         </View>
 
-                        <Pressable style={styles.applyButton} onPress={onApplyButtonClick}>
+                        <TouchableOpacity style={styles.applyButton} onPress={onApplyButtonClick}>
                             <Text style={styles.applyButtonText}>Apply</Text>
-                        </Pressable>
+                        </TouchableOpacity>
                     </View>
                 </>}
             </View>

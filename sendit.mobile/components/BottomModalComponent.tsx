@@ -1,4 +1,4 @@
-import { Modal, View, Text, Pressable, StyleSheet } from 'react-native';
+import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { BlurView } from 'expo-blur';
 import { useKeyboardHeight } from '@/hooks';
@@ -49,9 +49,9 @@ export function BottomModalComponent({ isVisible, children, onClose, title = und
                 <BlurView style={styles.blur} tint="light" intensity={blurIntensity ?? 80}>
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>{title}</Text>
-                        <Pressable onPress={onClose}>
+                        <TouchableOpacity onPress={onClose}>
                             <MaterialIcons name="close" color="#1F2328" size={24} />
-                        </Pressable>
+                        </TouchableOpacity>
                     </View>
                     {children}
                 </BlurView>
