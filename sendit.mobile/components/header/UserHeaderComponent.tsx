@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { BottomModalComponent } from '../BottomModalComponent';
-import { LoginScreen } from '@/screens';
+import { LoginScreen } from '@/screens/login/LoginScreen';
 
 export function UserHeaderComponent() {
     const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
