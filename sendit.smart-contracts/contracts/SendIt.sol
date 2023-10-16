@@ -1,33 +1,31 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.9
+pragma solidity ^0.8.9;
+
+// Uncomment this line to use console.log
+// import "hardhat/console.sol";
 
 // Import the ERC-20 interface
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 
 contract SendIt is Ownable {
-    address public usdcContractAddress; // Address of the USDC contract
-    uint256 public requiredAllowance;
+    mapping(address => bool) public allowedTokens;
 
-    // Initialize the contract with the owner and USDC contract address
-    constructor(address _usdcContractAddress, uint256 _requiredAllowance) {
-        usdcContractAddress = _usdcContractAddress;
-        requiredAllowance = _requiredAllowance;
+    constructor(address initialOwner) Ownable(initialOwner) {
     }
-
-    // Function to initiate the transfer with auto-approval
-    function initiateTransfer(address _receiver, uint256 _amount) external {
+    
+    function transferFunds(
+        address _receiver,
+        uint256 _amount,
+        address tokenAddress
+    ) external {
         // Check the user's current allowance for this contract
-        IERC20 usdcToken = IERC20(usdcContractAddress);
-        uint256 allowance = usdcToken.allowance(msg.sender, address(this));
+        IERC20 token = IERC20(tokenAddress);
+        require(
+            token.allowance(msg.sender, address(this)) >= _amount,
+            "Insufficient allowance. Please approve more funds."
+        );
 
-        if (allowance < requiredAllowance) {
-            // The user has not approved the contract for the required allowance
-            // Initiate an approval request
-            usdcToken.approve(address(this), requiredAllowance);
-        }
-
-        // Now, execute the transfer
-        usdcToken.transferFrom(msg.sender, _receiver, _amount);
+        token.transferFrom(msg.sender, _receiver, _amount);
     }
 }
