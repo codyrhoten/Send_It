@@ -1,6 +1,11 @@
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
+import {
+    ConnectWallet,
+    useConnectionStatus,
+} from '@thirdweb-dev/react-native';
 
 export function LoginScreen({ onCloseModal }) {
+    const connectionStatus = useConnectionStatus();
 
     return (
         <View style={styles.container}>
@@ -9,6 +14,8 @@ export function LoginScreen({ onCloseModal }) {
                     <Text style={styles.comethButtonText}>Cometh</Text>
                 </TouchableOpacity>
             </View>
+            <Text>{connectionStatus}</Text>
+            
 
 
         </View>

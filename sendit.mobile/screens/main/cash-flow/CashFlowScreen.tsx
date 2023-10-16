@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import MapView, { Camera, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Camera, Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import * as Location from "expo-location";
 import { BlurView } from 'expo-blur';
@@ -66,7 +66,6 @@ export function CashFlowScreen() {
                     </BottomModalComponent>
                     <MapView
                         ref={map}
-                        provider={PROVIDER_GOOGLE}
                         style={styles.map}
                         initialRegion={initialRegion}>
                         {currentLocation && (
@@ -89,7 +88,7 @@ export function CashFlowScreen() {
                         <TouchableOpacity onPress={() => setIsModalVisible(true)}>
                             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                 <Text style={{ marginHorizontal: 10, color: '#888', fontWeight: '600' }}>100 USDT</Text>
-                                <SvgUri uri='https://static.biswap.org/bs/coins/usdt.svg' width={30} height={30} style={{
+                                {/* <SvgUri uri='https://static.biswap.org/bs/coins/usdt.svg' width={30} height={30} style={{
                                     left: 3,
                                     borderRadius: 15, borderWidth: 1, borderColor: '#999c',
                                     shadowColor: "#000",
@@ -112,7 +111,7 @@ export function CashFlowScreen() {
                                     shadowOpacity: 0.25,
                                     shadowRadius: 3.84,
                                     elevation: 5,
-                                }} />
+                                }} /> */}
                                 <Text style={{ marginHorizontal: 10, color: '#888', fontWeight: '600' }}>136.51* $ CAD</Text>
                             </View>
                         </TouchableOpacity>

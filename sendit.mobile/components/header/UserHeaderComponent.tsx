@@ -1,22 +1,33 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { BottomModalComponent } from '../BottomModalComponent';
-import { LoginScreen } from '@/screens/login/LoginScreen';
+import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
+import { ConnectWallet, darkTheme, lightTheme, useConnectionStatus, WalletButton } from '@thirdweb-dev/react-native';
+
+const darkThemeCustom = lightTheme();
 
 export function UserHeaderComponent() {
-    const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
+    const navigation = useNavigation();
 
     return (
-        <>
-            <BottomModalComponent isVisible={isLoginModalVisible} onClose={() => setIsLoginModalVisible(false)}>
-                <LoginScreen onCloseModal={() => setIsLoginModalVisible(false)}></LoginScreen>
-            </BottomModalComponent>
-            <View style={styles.container}>
-                <TouchableOpacity onPress={() => setIsLoginModalVisible(true)} style={styles.connectButton}>
-                    <Text style={styles.connectButtonText}>Connect</Text>
-                </TouchableOpacity>
+        <View style={styles.container}>
+            <View>
+                <ConnectWallet
+                    buttonTitle='Connect'
+                    theme={{
+                        ...darkThemeCustom,
+
+                    }}
+                    detailsButton={() => {
+                        return <Button title="My Button" />;
+                    }}
+
+                />
             </View>
-        </>
+
+            {/*<TouchableOpacity onPress={() => setIsLoginModalVisible(true)} style={styles.connectButton}>
+                    <Text style={styles.connectButtonText}>Connect</Text>
+                </TouchableOpacity>*/}
+        </View>
     );
 };
 
