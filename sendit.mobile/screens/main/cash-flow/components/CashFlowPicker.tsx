@@ -2,8 +2,40 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
 import Toggle from "react-native-toggle-element";
 import DropDownPicker from 'react-native-dropdown-picker';
-import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Feather, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 
+const recipientList = [
+    {
+        label: 'Me',
+        value: 'me',
+        icon: () => <AntDesign name="user" size={20} color="black" />
+    },
+    {
+        label: 'John Smith',
+        value: 'js',
+        icon: () => <AntDesign name="user" size={20} color="black" />
+    },
+    {
+        label: 'Emily Johnson',
+        value: 'ej',
+        icon: () => <AntDesign name="user" size={20} color="black" />
+    },
+    {
+        label: 'Michael Brown',
+        value: 'mb',
+        icon: () => <AntDesign name="user" size={20} color="black" />
+    },
+    {
+        label: 'Sarah Davis',
+        value: 'sd',
+        icon: () => <AntDesign name="user" size={20} color="black" />
+    },
+    {
+        label: 'Robert Wilson',
+        value: 'rw',
+        icon: () => <AntDesign name="user" size={20} color="black" />
+    },
+];
 const cryptoList = [
     {
         label: 'USDT',
@@ -62,11 +94,17 @@ const currencyList = [
 export function CashFlowPicker({ onCloseModal }) {
     const [isSelling, setIsSelling] = useState(false);
 
+    const [tokenAmount, setTokenAmount] = useState(500);
+    const [currencyUnitPrice, setCurrencyUnitPrice] = useState(1.36);
+
+    const [recipientIsOpen, setRecipientIsOpen] = useState(false);
+    const [recipientValueSelected, setRecipientValueSelected] = useState<string>(recipientList[0].value);
+
     const [cryptoIsOpen, setCryptoIsOpen] = useState(false);
     const [cryptoValueSelected, setCryptoValueSelected] = useState<string>(cryptoList[0].value);
 
     const [currencyIsOpen, setCurrencyIsOpen] = useState(false);
-    const [currencyValueSelected, setCurrencyValueSelected] = useState(currencyList[0].value);
+    const [currencyValueSelected, setCurrencyValueSelected] = useState(currencyList[2].value);
 
     const cryptoSelected = cryptoList.find(p => p.value === currencyValueSelected);
     const currencySelected = currencyList.find(p => p.value === currencyValueSelected);
@@ -100,10 +138,10 @@ export function CashFlowPicker({ onCloseModal }) {
                         borderColor: "#ccc2",
                     }}
                     leftComponent={
-                        <Text style={{ fontWeight: 'bold', color: isSelling ? '#888' : '#000' }}>Receive cash</Text>
+                        <Text style={{ fontWeight: 'bold', color: isSelling ? '#888' : '#000' }}>Send cash {isSelling ? '' : 'for'}</Text>
                     }
                     rightComponent={
-                        <Text style={{ fontWeight: 'bold', color: isSelling ? '#000' : '#888' }}>Send cash</Text>
+                        <Text style={{ fontWeight: 'bold', color: isSelling ? '#000' : '#888' }}>Request cash {isSelling ? 'from' : ''}</Text>
                     }
                 />
             </View>
@@ -114,6 +152,39 @@ export function CashFlowPicker({ onCloseModal }) {
                     </View>
                 </> : <>
                     <View>
+
+                        <View style={{ marginBottom: 20 }}>
+                            <DropDownPicker
+                                searchable={true}
+                                open={recipientIsOpen}
+                                value={recipientValueSelected}
+                                items={recipientList}
+                                setOpen={setRecipientIsOpen}
+                                setValue={setRecipientValueSelected}
+                                placeholder='Recipient'
+                                searchPlaceholder='Search...'
+                                listMode='MODAL'
+                                modalProps={{
+                                    animationType: 'slide'
+                                }}
+                                style={{
+                                    backgroundColor: '#fffa',
+                                    borderColor: '#cccc',
+                                    borderRadius: 5,
+                                    borderWidth: 1,
+                                    minHeight: 40,
+                                }}
+                                textStyle={{
+                                    letterSpacing: 0.75,
+                                    fontWeight: '500'
+                                }}
+                                searchTextInputStyle={{
+                                    backgroundColor: '#fff6',
+                                    borderColor: '#cccc',
+                                }}
+                                searchContainerStyle={{ borderBottomColor: "#ccc6" }}
+                            />
+                        </View>
 
                         <View style={{ marginBottom: 20 }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4, zIndex: 100 }}>
@@ -137,15 +208,11 @@ export function CashFlowPicker({ onCloseModal }) {
                                             minHeight: 30,
                                             borderWidth: 0,
                                         }}
-                                        dropDownContainerStyle={{
-                                            backgroundColor: '#fffc',
-                                            borderColor: '#cccc',
-                                        }}
                                         containerStyle={{
                                             width: 140,
                                         }}
                                         searchTextInputStyle={{
-                                            backgroundColor: '#fffc',
+                                            backgroundColor: '#fff6',
                                             borderColor: '#cccc',
                                         }}
                                         searchContainerStyle={{ borderBottomColor: "#ccc6" }}
@@ -157,7 +224,7 @@ export function CashFlowPicker({ onCloseModal }) {
                                 <TextInput
                                     style={{
                                         flexGrow: 1,
-                                        backgroundColor: '#fffc',
+                                        backgroundColor: '#fffa',
                                         borderColor: '#cccc',
                                         padding: 12,
                                         borderRadius: 5,
@@ -167,9 +234,9 @@ export function CashFlowPicker({ onCloseModal }) {
                                     }}
                                     keyboardType='numeric'
                                     returnKeyType='done'
-                                    //onChangeText={(text) => this.onChanged(text)}
-                                    //value={this.state.myNumber}
-                                    maxLength={10}  //setting limit of input
+                                    onChangeText={(text) => setTokenAmount(Number.parseFloat(text))}
+                                    value={tokenAmount.toString()}
+                                    maxLength={10}
                                 />
                                 <TouchableOpacity style={{
                                     width: 40,
@@ -218,7 +285,7 @@ export function CashFlowPicker({ onCloseModal }) {
                                             width: 150,
                                         }}
                                         searchTextInputStyle={{
-                                            backgroundColor: '#fffc',
+                                            backgroundColor: '#fff6',
                                             borderColor: '#cccc',
                                         }}
                                         searchContainerStyle={{ borderBottomColor: "#ccc6" }}
@@ -254,7 +321,7 @@ export function CashFlowPicker({ onCloseModal }) {
                                 <TextInput
                                     style={{
                                         flexGrow: 1,
-                                        backgroundColor: '#fffc',
+                                        backgroundColor: '#fffa',
                                         borderColor: '#cccc',
                                         padding: 12,
                                         borderRadius: 5,
@@ -264,8 +331,8 @@ export function CashFlowPicker({ onCloseModal }) {
                                     }}
                                     keyboardType='numeric'
                                     returnKeyType='done'
-                                    //onChangeText={(text) => this.onChanged(text)}
-                                    //value={this.state.myNumber}
+                                    onChangeText={(text) => setCurrencyUnitPrice(Number.parseFloat(text))}
+                                    value={currencyUnitPrice.toString()}
                                     maxLength={10}
                                 />
                                 <TouchableOpacity style={{
@@ -286,7 +353,7 @@ export function CashFlowPicker({ onCloseModal }) {
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <Text style={{ fontSize: 12, color: '#666' }}>Approximately you will get</Text>
                                 <MaterialCommunityIcons name="approximately-equal" size={24} color="#888" />
-                                <Text style={{ fontSize: 12, color: '#666' }}>136.51 {currencySelected.label}</Text>
+                                <Text style={{ fontSize: 12, color: '#666' }}>{(tokenAmount * currencyUnitPrice).toFixed()} {currencySelected.label}</Text>
                             </View>
                         </View>
 
