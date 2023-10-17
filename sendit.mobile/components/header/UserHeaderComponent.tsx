@@ -1,32 +1,44 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
-import { ConnectWallet, darkTheme, lightTheme, useConnectionStatus, WalletButton } from '@thirdweb-dev/react-native';
-
-const darkThemeCustom = lightTheme();
+import { ConnectWallet, useWallet, useDisconnect, useConnectionStatus } from '@thirdweb-dev/react-native';
 
 export function UserHeaderComponent() {
+    const [walletAddress, setWalletAddress] = useState<string>();
+
     const navigation = useNavigation();
+    const onDisconnect = useDisconnect();
+    const connectionStatus = useConnectionStatus();
+    const wallet = useWallet();
+
+    useEffect(() => {
+        async function getWalletAddress() {
+            setWalletAddress(await wallet.getAddress());
+        };
+
+        if (connectionStatus === 'connected') {
+            getWalletAddress();
+        }
+    }, [connectionStatus]);
 
     return (
         <View style={styles.container}>
             <View>
-                <ConnectWallet
-                    buttonTitle='Connect'
-                    theme={{
-                        ...darkThemeCustom,
-
-                    }}
-                    detailsButton={() => {
-                        return <Button title="My Button" />;
-                    }}
-
-                />
+                {connectionStatus !== 'connected' && <>
+                    <ConnectWallet
+                        buttonTitle='Connect'
+                        detailsButton={() => {
+                            return <Button title="My Button" />;
+                        }}
+                    />
+                </>}
+                {connectionStatus === 'connected' && <>
+                    <Text>{walletAddress}</Text>
+                    <TouchableOpacity onPress={() => onDisconnect()} style={styles.button}>
+                        <Text style={styles.buttonText}>Disconnect</Text>
+                    </TouchableOpacity>
+                </>}
             </View>
-
-            {/*<TouchableOpacity onPress={() => setIsLoginModalVisible(true)} style={styles.connectButton}>
-                    <Text style={styles.connectButtonText}>Connect</Text>
-                </TouchableOpacity>*/}
         </View>
     );
 };
@@ -35,7 +47,7 @@ const styles = StyleSheet.create({
     container: {
 
     },
-    connectButton: {
+    button: {
         marginHorizontal: 10,
         paddingHorizontal: 10,
         paddingVertical: 6,
@@ -43,7 +55,7 @@ const styles = StyleSheet.create({
         elevation: 3,
         backgroundColor: 'black',
     },
-    connectButtonText: {
+    buttonText: {
         fontSize: 14,
         fontWeight: '600',
         color: 'white',

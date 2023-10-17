@@ -10,7 +10,6 @@ import { useKeyboardHeight } from '@/hooks';
 import { MainConstants } from '../MainConstants';
 import { BottomModalComponent } from '@/components';
 import { CashFlowPicker } from './components';
-import { SvgUri } from 'react-native-svg';
 
 export function CashFlowScreen() {
     const insets = useSafeAreaInsets();
@@ -88,9 +87,13 @@ export function CashFlowScreen() {
                         <TouchableOpacity onPress={() => setIsModalVisible(true)}>
                             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                 <Text style={{ marginHorizontal: 10, color: '#888', fontWeight: '600' }}>100 USDT</Text>
-                                {/* <SvgUri uri='https://static.biswap.org/bs/coins/usdt.svg' width={30} height={30} style={{
+                                <Image source={require(`../../../assets/tokens/${'usdt'}.png`)} style={{
                                     left: 3,
-                                    borderRadius: 15, borderWidth: 1, borderColor: '#999c',
+                                    width: 30,
+                                    height: 30,
+                                    borderRadius: 15,
+                                    borderWidth: 1,
+                                    borderColor: '#999c',
                                     shadowColor: "#000",
                                     shadowOffset: {
                                         width: 0,
@@ -98,11 +101,14 @@ export function CashFlowScreen() {
                                     },
                                     shadowOpacity: 0.25,
                                     shadowRadius: 3.84,
-                                    elevation: 5,
                                 }} />
-
-                                <SvgUri uri='https://hatscripts.github.io/circle-flags/flags/ca.svg' width={30} height={30} style={{
-                                    left: -3, borderRadius: 15, borderWidth: 1, borderColor: '#999c',
+                                <Image source={require(`../../../assets/flags/${'ca'}.png`)} style={{
+                                    left: -3,
+                                    width: 30,
+                                    height: 30,
+                                    borderRadius: 15,
+                                    borderWidth: 1,
+                                    borderColor: '#999c',
                                     shadowColor: "#000",
                                     shadowOffset: {
                                         width: 0,
@@ -110,8 +116,7 @@ export function CashFlowScreen() {
                                     },
                                     shadowOpacity: 0.25,
                                     shadowRadius: 3.84,
-                                    elevation: 5,
-                                }} /> */}
+                                }} />
                                 <Text style={{ marginHorizontal: 10, color: '#888', fontWeight: '600' }}>136.51* $ CAD</Text>
                             </View>
                         </TouchableOpacity>
