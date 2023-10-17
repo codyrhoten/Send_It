@@ -25,7 +25,7 @@ export default function App() {
             >
                 <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
                     <SafeAreaProvider>
-                        <Routes colorScheme={colorScheme} />
+                        <Routes colorScheme={'light'} />
                         <StatusBar />
                     </SafeAreaProvider>
                 </KeyboardAvoidingView>

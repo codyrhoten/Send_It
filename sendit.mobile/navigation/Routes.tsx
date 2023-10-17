@@ -1,8 +1,8 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
+import { AntDesign, SimpleLineIcons } from '@expo/vector-icons';
 
-import { MainTabRoutes, SettingsScreen, SwapScreen } from '@/screens';
+import { MainTabRoutes, AssetsScreen, SettingsScreen } from '@/screens';
 import { navigationRef, NavigationPaths } from './RootNavigation';
 
 const Drawer = createDrawerNavigator();
@@ -20,11 +20,11 @@ function Routes({ colorScheme }) {
                     }}
                 />
                 <Drawer.Screen
-                    component={SwapScreen}
-                    name={NavigationPaths.DRAWER_SWAP}
+                    component={AssetsScreen}
+                    name={NavigationPaths.DRAWER_ASSETS}
                     options={{
-                        title: 'Swap',
-                        drawerIcon: ({ focused }) => <FontAwesome5 name="coins" size={24} color={focused ? 'black' : 'grey'} />
+                        title: 'Assets',
+                        drawerIcon: ({ focused }) => <SimpleLineIcons name="wallet" size={24} color={focused ? 'black' : 'grey'} />
                     }}
                 />
                 <Drawer.Screen

@@ -3,13 +3,13 @@ import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AntDesign, SimpleLineIcons, Ionicons } from '@expo/vector-icons';
+import { AntDesign, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 
 import { NavigationPaths } from '@/navigation';
 import { MainConstants } from './MainConstants';
 import { TreasuryScreen } from './treasury';
-import { AssetsScreen } from './assets';
+import { SwapScreen } from './swap';
 import { ChatScreen, ConversationScreen } from './chat';
 import { CashFlowScreen } from './cash-flow';
 import { UserHeaderComponent } from '@/components/header/UserHeaderComponent';
@@ -53,15 +53,25 @@ export function MainTabRoutes() {
                 name={NavigationPaths.MAIN_TAB_CASH_FLOW}
                 component={MainTabCashFlowComponent}
                 options={{
-                    title: 'Cash flow',
+                    title: 'Send & Receive',
                     tabBarIcon: ({ focused }) => <AntDesign name="swap" size={24} color={focused ? 'black' : 'grey'} />
                 }}
             />
+
+            <Tab.Screen
+                name={NavigationPaths.MAIN_TAB_SWAP}
+                component={MainTabSwapComponent}
+                options={{
+                    title: 'Swap',
+                    tabBarIcon: ({ focused }) => <FontAwesome5 name="coins" size={24} color={focused ? 'black' : 'grey'} />
+                }}
+            />
+
             <Tab.Screen
                 name={NavigationPaths.MAIN_TAB_TREASURY}
                 component={MainTabTreasuryComponent}
                 options={{
-                    title: 'Treasury',
+                    title: 'Borrow',
                     tabBarIcon: ({ focused }) => <AntDesign name="bank" size={24} color={focused ? 'black' : 'grey'} />
                 }}
             />
@@ -72,15 +82,6 @@ export function MainTabRoutes() {
                 options={{
                     title: 'Chats',
                     tabBarIcon: ({ focused }) => <Ionicons name="chatbubbles-outline" size={24} color={focused ? 'black' : 'grey'} />
-                }}
-            />
-
-            <Tab.Screen
-                name={NavigationPaths.MAIN_TAB_ASSETS}
-                component={MainTabAssetsComponent}
-                options={{
-                    title: 'Assets',
-                    tabBarIcon: ({ focused }) => <SimpleLineIcons name="wallet" size={24} color={focused ? 'black' : 'grey'} />
                 }}
             />
 
@@ -110,6 +111,19 @@ function MainTabCashFlowComponent() {
 }
 
 
+const SwapStack = createStackNavigator();
+function MainTabSwapComponent() {
+    return (
+        <SwapStack.Navigator screenOptions={{
+            title: 'Swap',
+            headerLeft: () => (<MenuIcon />)
+        }}>
+            <SwapStack.Screen name={NavigationPaths.SCREEN_SWAP} component={SwapScreen} />
+        </SwapStack.Navigator>
+    );
+}
+
+
 const TreasuryStack = createStackNavigator();
 function MainTabTreasuryComponent() {
     return (
@@ -130,18 +144,5 @@ function MainTabChatComponent() {
             <ChatStack.Screen name={NavigationPaths.SCREEN_CHAT} component={ChatScreen} />
             <ChatStack.Screen name={NavigationPaths.SCREEN_CHAT_CONVERSATION} component={ConversationScreen} />
         </ChatStack.Navigator>
-    );
-}
-
-
-const AssetsStack = createStackNavigator();
-function MainTabAssetsComponent() {
-    return (
-        <AssetsStack.Navigator screenOptions={{
-            title: 'Assets',
-            headerLeft: () => (<MenuIcon />)
-        }}>
-            <AssetsStack.Screen name={NavigationPaths.SCREEN_ASSETS} component={AssetsScreen} />
-        </AssetsStack.Navigator>
     );
 }

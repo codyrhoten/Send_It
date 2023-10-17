@@ -100,10 +100,10 @@ export function CashFlowPicker({ onCloseModal }) {
                         borderColor: "#ccc2",
                     }}
                     leftComponent={
-                        <Text style={{ fontWeight: 'bold', color: isSelling ? '#888' : '#000' }}>Buy cash</Text>
+                        <Text style={{ fontWeight: 'bold', color: isSelling ? '#888' : '#000' }}>Receive cash</Text>
                     }
                     rightComponent={
-                        <Text style={{ fontWeight: 'bold', color: isSelling ? '#000' : '#888' }}>Sell cash</Text>
+                        <Text style={{ fontWeight: 'bold', color: isSelling ? '#000' : '#888' }}>Send cash</Text>
                     }
                 />
             </View>

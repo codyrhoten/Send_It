@@ -10,13 +10,13 @@ export function navigate(name: NavigationPaths, params?: object) {
 
 export enum NavigationPaths {
     DRAWER_MAIN = 'DrawerMain',
-    DRAWER_SWAP = 'DrawerSwap',
+    DRAWER_ASSETS = 'DrawerAssets',
     DRAWER_SETTINGS = 'DrawerSettings',
 
     MAIN_TAB_CASH_FLOW = 'MainTabCashFlow',
+    MAIN_TAB_SWAP = 'MainTabSwap',
     MAIN_TAB_TREASURY = 'MainTabTreasury',
     MAIN_TAB_CHAT = 'MainTabChat',
-    MAIN_TAB_ASSETS = 'MainTabAssets',
 
     SCREEN_CASH_FLOW = 'ScreenCashFlow',
     SCREEN_CASH_FLOW_COURIER_SEARCH = 'ScreenCashFlowCourierSearch',
@@ -28,5 +28,5 @@ export enum NavigationPaths {
 
     SCREEN_ASSETS = 'ScreenAssets',
 
-    SCREEN_SWAP = 'ScreenSwap'
+    SCREEN_SWAP = 'ScreenSwap',
 };
