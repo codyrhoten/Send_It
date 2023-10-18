@@ -71,7 +71,7 @@ export function MainTabRoutes() {
                 name={NavigationPaths.MAIN_TAB_TREASURY}
                 component={MainTabTreasuryComponent}
                 options={{
-                    title: 'Borrow',
+                    title: 'Borrow & Lend',
                     tabBarIcon: ({ focused }) => <AntDesign name="bank" size={24} color={focused ? 'black' : 'grey'} />
                 }}
             />
@@ -128,7 +128,7 @@ const TreasuryStack = createStackNavigator();
 function MainTabTreasuryComponent() {
     return (
         < TreasuryStack.Navigator screenOptions={{
-            title: 'Treasury',
+            title: 'Borrow & Lend',
             headerLeft: () => (<MenuIcon />)
         }}>
             <TreasuryStack.Screen name={NavigationPaths.SCREEN_TREASURY} component={TreasuryScreen} />

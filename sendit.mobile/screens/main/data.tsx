@@ -44,19 +44,19 @@ export const courierList = [
         label: 'William Anderson',
         value: '1',
         rate: 1.361,
-        icon: require(`../../../../assets/couriers/1.png`)
+        icon: require(`../../assets/couriers/1.png`)
     },
     {
         label: 'David Clark',
         value: '2',
-        rate: 1.364,
-        icon: require(`../../../../assets/couriers/2.png`)
+        rate: 1.38,
+        icon: require(`../../assets/couriers/2.png`)
     },
     {
         label: 'Jennifer Martinez',
         value: '3',
-        rate: 1.36,
-        icon: require(`../../../../assets/couriers/3.png`)
+        rate: 1.37,
+        icon: require(`../../assets/couriers/3.png`)
     },
 ];
 
@@ -64,17 +64,17 @@ export const cryptoList = [
     {
         label: 'USDT',
         value: 'usdt',
-        icon: () => <Image source={require(`../../../../assets/tokens/${'usdt'}.png`)} style={{ width: 20, height: 20 }} />
+        icon: () => <Image source={require(`../../assets/tokens/${'usdt'}.png`)} style={{ width: 20, height: 20 }} />
     },
     {
         label: 'USDC',
         value: 'usdc',
-        icon: () => <Image source={require(`../../../../assets/tokens/${'usdc'}.png`)} style={{ width: 20, height: 20 }} />
+        icon: () => <Image source={require(`../../assets/tokens/${'usdc'}.png`)} style={{ width: 20, height: 20 }} />
     },
     {
         label: 'ETH',
         value: 'eth',
-        icon: () => <Image source={require(`../../../../assets/tokens/${'eth'}.png`)} style={{ width: 20, height: 20 }} />
+        icon: () => <Image source={require(`../../assets/tokens/${'eth'}.png`)} style={{ width: 20, height: 20 }} />
     }
 ];
 

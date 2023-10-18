@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'reac
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { cryptoList, fiatList } from './data';
+import { cryptoList, fiatList } from '../../data';
 
 export function RequestCashComponent() {
 

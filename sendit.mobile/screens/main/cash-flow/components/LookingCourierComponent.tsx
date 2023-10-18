@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { courierList, recipientList } from './data';
+import { courierList, recipientList } from '../../data';
 import { BottomModalComponent } from '@/components';
 
 export function LookingCourierComponent({ isVisible, onClose }) {

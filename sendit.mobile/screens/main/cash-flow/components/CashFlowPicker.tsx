@@ -4,7 +4,7 @@ import Toggle from "react-native-toggle-element";
 import DropDownPicker from 'react-native-dropdown-picker';
 import { SendCashComponent } from './SendCashComponent';
 import { RequestCashComponent } from './RequestCashComponent';
-import { recipientList } from './data';
+import { recipientList } from '../../data';
 
 export function CashFlowPicker({ onCloseModal }) {
     const [isSelling, setIsSelling] = useState(false);
