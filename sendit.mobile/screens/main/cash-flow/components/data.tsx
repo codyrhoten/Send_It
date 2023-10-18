@@ -1,4 +1,64 @@
 import { Image } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+
+export const recipientList = [
+    {
+        label: 'Add contact',
+        value: 'add',
+        icon: () => <AntDesign name="adduser" size={24} color="black" />
+    },
+    {
+        label: 'Me',
+        value: 'me',
+        icon: () => <AntDesign name="user" size={20} color="black" />
+    },
+    {
+        label: 'John Smith',
+        value: 'js',
+        icon: () => <AntDesign name="user" size={20} color="black" />
+    },
+    {
+        label: 'Emily Johnson',
+        value: 'ej',
+        icon: () => <AntDesign name="user" size={20} color="black" />
+    },
+    {
+        label: 'Michael Brown',
+        value: 'mb',
+        icon: () => <AntDesign name="user" size={20} color="black" />
+    },
+    {
+        label: 'Sarah Davis',
+        value: 'sd',
+        icon: () => <AntDesign name="user" size={20} color="black" />
+    },
+    {
+        label: 'Robert Wilson',
+        value: 'rw',
+        icon: () => <AntDesign name="user" size={20} color="black" />
+    },
+];
+
+export const courierList = [
+    {
+        label: 'William Anderson',
+        value: '1',
+        rate: 1.361,
+        icon: require(`../../../../assets/couriers/1.png`)
+    },
+    {
+        label: 'David Clark',
+        value: '2',
+        rate: 1.364,
+        icon: require(`../../../../assets/couriers/2.png`)
+    },
+    {
+        label: 'Jennifer Martinez',
+        value: '3',
+        rate: 1.36,
+        icon: require(`../../../../assets/couriers/3.png`)
+    },
+];
 
 export const cryptoList = [
     {

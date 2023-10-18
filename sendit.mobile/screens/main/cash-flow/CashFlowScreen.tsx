@@ -9,11 +9,13 @@ import { BlurView } from 'expo-blur';
 import { useKeyboardHeight } from '@/hooks';
 import { MainConstants } from '../MainConstants';
 import { BottomModalComponent } from '@/components';
-import { CashFlowPicker } from './components';
+import { CashFlowPicker, LookingCourierComponent } from './components';
 
 export function CashFlowScreen() {
     const insets = useSafeAreaInsets();
     const keyboardHeight = useKeyboardHeight();
+
+    const [isLookingCourierModalVisible, setIsLookingCouriersModalVisible] = useState(false);
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [currentLocation, setCurrentLocation] = useState(null);
@@ -45,7 +47,7 @@ export function CashFlowScreen() {
             return;
         }
 
-        let location = await Location.getCurrentPositionAsync({});
+        let location = await Location.getCurrentPositionAsync();
         setCurrentLocation(location.coords);
 
         setInitialRegion({
@@ -61,8 +63,10 @@ export function CashFlowScreen() {
             {initialRegion && (
                 <>
                     <BottomModalComponent title='I want to' isVisible={isModalVisible} onClose={() => setIsModalVisible(false)} titleAlign='left' blurIntensity={100}>
-                        <CashFlowPicker onCloseModal={() => setIsModalVisible(false)}></CashFlowPicker>
+                        <CashFlowPicker onCloseModal={() => setIsModalVisible(false)} />
                     </BottomModalComponent>
+                    <LookingCourierComponent isVisible={isLookingCourierModalVisible} onClose={() => setIsLookingCouriersModalVisible(false)} />
+
                     <MapView
                         ref={map}
                         style={styles.map}
@@ -86,7 +90,7 @@ export function CashFlowScreen() {
                     >
                         <TouchableOpacity onPress={() => setIsModalVisible(true)}>
                             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ marginHorizontal: 10, color: '#888', fontWeight: '600' }}>100 USDT</Text>
+                                <Text style={{ marginHorizontal: 10, color: '#666', fontWeight: '600' }}>100 USDT</Text>
                                 <Image source={require(`../../../assets/tokens/${'usdt'}.png`)} style={{
                                     left: 3,
                                     width: 30,
@@ -117,12 +121,16 @@ export function CashFlowScreen() {
                                     shadowOpacity: 0.25,
                                     shadowRadius: 3.84,
                                 }} />
-                                <Text style={{ marginHorizontal: 10, color: '#888', fontWeight: '600' }}>136.51* $ CAD</Text>
+                                <Text style={{ marginHorizontal: 10, color: '#666', fontWeight: '600' }}>136.51* $ CAD</Text>
                             </View>
                         </TouchableOpacity>
-                        <TextInput placeholder='Delivery location' style={styles.locationInput} />
+                        <TextInput
+                            placeholder='Delivery location'
+                            style={styles.locationInput}
+                            value='1800 Ellis St, San Francisco, CA 94115, USA'
+                        />
                         <View style={styles.actionsButtons}>
-                            <TouchableOpacity style={styles.findButton} onPress={onZoomOutPress}>
+                            <TouchableOpacity style={styles.findButton} onPress={() => setIsLookingCouriersModalVisible(true)}>
                                 <Text style={styles.findButtonText}>Find a delivery</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.optionsButton} onPress={() => setIsModalVisible(true)}>
@@ -155,10 +163,12 @@ const styles = StyleSheet.create({
     },
     locationInput: {
         height: 44,
-        padding: 10,
+        padding: 12,
         marginVertical: 18,
-        backgroundColor: '#e8e8e8',
+        backgroundColor: '#fffa',
+        borderColor: '#cccc',
         borderRadius: 5,
+        borderWidth: 1,
         elevation: 5,
     },
     actionsButtons: {

@@ -3,14 +3,24 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { BlurView } from 'expo-blur';
 import { useKeyboardHeight } from '@/hooks';
 
-export function BottomModalComponent({ isVisible, children, onClose, title = undefined, titleAlign = undefined, height = undefined, blurIntensity = undefined }: {
+export function BottomModalComponent({
+    isVisible,
+    children,
+    onClose,
+    title = undefined,
+    titleAlign = undefined,
+    height = undefined,
+    blurIntensity = undefined,
+    isShowHeader = true
+}: {
     isVisible: boolean,
     children: any,
     onClose: (event: any) => void,
     title?: string,
     titleAlign?: 'auto' | 'left' | 'right' | 'center' | 'justify' | undefined,
     height?: number | 'auto' | `${number}%` | null | undefined,
-    blurIntensity?: number | undefined
+    blurIntensity?: number | undefined,
+    isShowHeader?: boolean | undefined
 }) {
     const keyboardHeight = useKeyboardHeight();
     const styles = StyleSheet.create({
@@ -47,12 +57,12 @@ export function BottomModalComponent({ isVisible, children, onClose, title = und
         <Modal animationType="slide" transparent={true} visible={isVisible}>
             <View style={styles.modalContent}>
                 <BlurView style={styles.blur} tint="light" intensity={blurIntensity ?? 80}>
-                    <View style={styles.titleContainer}>
+                    {isShowHeader && <View style={styles.titleContainer}>
                         <Text style={styles.title}>{title}</Text>
                         <TouchableOpacity onPress={onClose}>
                             <MaterialIcons name="close" color="#1F2328" size={24} />
                         </TouchableOpacity>
-                    </View>
+                    </View>}
                     {children}
                 </BlurView>
             </View>

@@ -2,47 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Toggle from "react-native-toggle-element";
 import DropDownPicker from 'react-native-dropdown-picker';
-import { AntDesign } from '@expo/vector-icons';
 import { SendCashComponent } from './SendCashComponent';
 import { RequestCashComponent } from './RequestCashComponent';
-
-const recipientList = [
-    {
-        label: 'Add contact',
-        value: 'add',
-        icon: () => <AntDesign name="adduser" size={24} color="black" />
-    },
-    {
-        label: 'Me',
-        value: 'me',
-        icon: () => <AntDesign name="user" size={20} color="black" />
-    },
-    {
-        label: 'John Smith',
-        value: 'js',
-        icon: () => <AntDesign name="user" size={20} color="black" />
-    },
-    {
-        label: 'Emily Johnson',
-        value: 'ej',
-        icon: () => <AntDesign name="user" size={20} color="black" />
-    },
-    {
-        label: 'Michael Brown',
-        value: 'mb',
-        icon: () => <AntDesign name="user" size={20} color="black" />
-    },
-    {
-        label: 'Sarah Davis',
-        value: 'sd',
-        icon: () => <AntDesign name="user" size={20} color="black" />
-    },
-    {
-        label: 'Robert Wilson',
-        value: 'rw',
-        icon: () => <AntDesign name="user" size={20} color="black" />
-    },
-];
+import { recipientList } from './data';
 
 export function CashFlowPicker({ onCloseModal }) {
     const [isSelling, setIsSelling] = useState(false);
