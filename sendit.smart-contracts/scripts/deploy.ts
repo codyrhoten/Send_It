@@ -1,20 +1,13 @@
 const { ethers } = require("hardhat");
 
 async function main() {
-    const orders = await ethers.deployContract("Orders", {
-
-    });
-
-    const transfers = await ethers.deployContract("Transfers", {
-
-    });
-
+    const [deployer] = await ethers.getSigners();
+    
+    const orders = await ethers.deployContract("Orders");
     await orders.waitForDeployment();
-    await transfers.waitForDeployment();
 
-    // console.log(
-    //     `Lock with ${ethers.formatEther()}ETH and unlock timestamp ${unlockTime} deployed to ${lock.target}`
-    // );
+    console.log('Contract deployed with the account:', deployer.address);
+    console.log('Send It Orders contract deployed to:', orders.target);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

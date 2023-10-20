@@ -7,6 +7,7 @@
     "solidity-coverage": "^0.8.5"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^5.0.0"
+    "@openzeppelin/contracts": "^5.0.0",
+    "dotenv": "^16.3.1"
   }
 }

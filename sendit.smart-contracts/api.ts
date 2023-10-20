@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 
 // Replace with your contract address and ABI
 const Orders = require('../artifacts/contracts/Orders.sol/Orders.json');
-const contractAddress = 'YOUR_CONTRACT_ADDRESS';
+const contractAddress = '0xBA1e860A5CfEBfFf09E604996d3017eCe6640258';
 
 // Replace with our own provider
 // const provider = new ethers.providers.Web3Provider(ethereum);
