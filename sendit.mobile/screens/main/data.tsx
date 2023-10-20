@@ -115,3 +115,43 @@ export const fiatList = [
         icon: () => <Image source={{ uri: 'https://flagcdn.com/h20/th.png' }} style={{ width: 30, height: 20 }} />
     }
 ];
+
+
+export type ChatModel = {
+    id: string;
+    title: string;
+    address: string;
+    avatar: number;
+    participants: any[];
+    messages: any[];
+};
+
+export const ChatData: ChatModel[] = [
+    {
+        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+        title: 'First Item',
+        address: '0x61988e87c4d8e9e9e4567d248cad51823b071fd8',
+        avatar: require(`../../assets/couriers/1.png`),
+        participants: [],
+        messages: [
+            { text: 'Hello. I\'ll be there with cash in 30 minutes.', isMe: false },
+            { text: 'Hello. Fine. I am waiting.', isMe: true }
+        ],
+    },
+    {
+        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+        title: 'Second Item',
+        address: '0xa38d39e4266dfade14336a9ae31e1d16f4e56a95',
+        avatar: require(`../../assets/couriers/2.png`),
+        participants: [],
+        messages: [],
+    },
+    {
+        id: '58694a0f-3da1-471f-bd96-145571e29d72',
+        title: 'Third Item',
+        address: '0x3188a469339961f6e3f1ff603b85f8379dc2f227',
+        avatar: require(`../../assets/couriers/3.png`),
+        participants: [],
+        messages: [],
+    },
+];
