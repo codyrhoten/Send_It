@@ -1,23 +1,82 @@
-// approve() of USDC contract
-// user is prompted upon creating or connecting their wallet
-// approves SentIt contract to make transactions on behalf of user
+import { ethers } from 'ethers';
 
-// allowance() of USDC contract
-// whenever focus leaves the transfer fund amount field and it's not empty
-// used for checking how much more the user can have SendIt contract transfer on their behalf before needing further approval
+// Replace with your contract address and ABI
+const Orders = require('../artifacts/contracts/Orders.sol/Orders.json');
+const contractAddress = 'YOUR_CONTRACT_ADDRESS';
 
-// createOrder() of Orders contract - takes receiver address, amount, from currency, to currency
-// when user taps button to send for courier after inputting receiver, amount + currencies to exchange
-// creates order process
+// Replace with our own provider
+// const provider = new ethers.providers.Web3Provider(ethereum);
 
-// assignCourier() of Orders contract - takes order ID and courier address
-// when courier is selected by user
-// assigns courier to previously created order
+// Use wallet signer's address to send transactions
+// const signer = provider.getSigner();
+const signer = null;
 
-// completeOrder() of Orders contract - takes order ID
-// when cash has been exchanged for crypto in user's wallet address
-// moves order of previously created order to completed status
+// Create a contract instance
+const contract = new ethers.Contract(contractAddress, Orders.abi, signer);
 
-// cancelOrder() of Orders contract - takes order ID
-// when user/courier decides they don't wish to continue with this order
-// moves previously created order to canceled status
+
+// Create a new order
+export async function createOrder(
+    _receiver: string,
+    _amount: number,
+    _fromCurrency: string,
+    _toCurrency: string,
+    _locationId: string
+): Promise<void> {
+    try {
+        const tx = await contract.createOrder(_receiver, _amount, _fromCurrency, _toCurrency, _locationId);
+        await tx.wait();
+    } catch (error: any) {
+        throw new Error(`Error creating order: ${error.message}`);
+    }
+}
+
+// Assign a courier to an order
+export async function assignCourier(_orderId: number, _courier: string): Promise<void> {
+    try {
+        const tx = await contract.assignCourier(_orderId, _courier);
+        await tx.wait();
+    } catch (error: any) {
+        throw new Error(`Error assigning courier: ${error.message}`);
+    }
+}
+
+// Complete an order (for courier) - changes order status to OrderStatus.Completed
+export async function completeOrder(_orderId: number): Promise<void> {
+    try {
+        const tx = await contract.completeOrder(_orderId);
+        await tx.wait();
+    } catch (error: any) {
+        throw new Error(`Error completing order: ${error.message}`);
+    }
+}
+
+// Cancel an order (for sender or courier) - changes order status to OrderStatus.Canceled
+export async function cancelOrder(_orderId: number): Promise<void> {
+    try {
+        const tx = await contract.cancelOrder(_orderId);
+        await tx.wait();
+    } catch (error: any) {
+        throw new Error(`Error canceling order: ${error.message}`);
+    }
+}
+
+// Get order details by orderId
+export async function getOrderDetails(_orderId: number): Promise<any> {
+    try {
+        const order = await contract.getOrder(_orderId);
+        return order;
+    } catch (error: any) {
+        throw new Error(`Error getting order details: ${error.message}`);
+    }
+}
+
+// Get all orders that have OrderStatus.Created
+export async function getCreatedOrders(): Promise<any[]> {
+    try {
+        const orders = await contract.getCreatedOrders();
+        return orders;
+    } catch (error: any) {
+        throw new Error(`Error getting created orders: ${error.message}`);
+    }
+}
