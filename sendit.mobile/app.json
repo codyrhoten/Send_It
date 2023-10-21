@@ -20,7 +20,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.happynariman.send-it"
+      "bundleIdentifier": "com.happynariman.sendit"
     },
     "android": {
       "adaptiveIcon": {
