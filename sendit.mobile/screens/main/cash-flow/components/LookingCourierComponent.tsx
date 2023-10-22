@@ -38,7 +38,7 @@ export function LookingCourierComponent({ isVisible, onClose }) {
                                 fontWeight: 'bold',
                                 letterSpacing: 0.5,
                                 marginBottom: 30,
-                            }}>Looking for couriers</Text>}
+                            }}>Looking for exchangers</Text>}
 
                         {couriers.map(c =>
                             <View key={c.value} style={{

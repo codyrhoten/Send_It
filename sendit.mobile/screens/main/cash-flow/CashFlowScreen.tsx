@@ -131,7 +131,7 @@ export function CashFlowScreen() {
                         />
                         <View style={styles.actionsButtons}>
                             <TouchableOpacity style={styles.findButton} onPress={() => setIsLookingCouriersModalVisible(true)}>
-                                <Text style={styles.findButtonText}>Find a delivery</Text>
+                                <Text style={styles.findButtonText}>Find an exchanger</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.optionsButton} onPress={() => setIsModalVisible(true)}>
                                 <Ionicons name="options-outline" size={24} color="white" />

@@ -9,20 +9,8 @@ import { recipientList } from '../../data';
 export function CashFlowPicker({ onCloseModal }) {
     const [isSelling, setIsSelling] = useState(false);
 
-    // const [tokenAmount, setTokenAmount] = useState(500);
-    // const [currencyUnitPrice, setCurrencyUnitPrice] = useState(1.36);
-
     const [recipientIsOpen, setRecipientIsOpen] = useState(false);
-    const [recipientValueSelected, setRecipientValueSelected] = useState<string>(recipientList[1].value);
-
-    // const [cryptoIsOpen, setCryptoIsOpen] = useState(false);
-    // const [cryptoValueSelected, setCryptoValueSelected] = useState<string>(cryptoList[0].value);
-
-    // const [currencyIsOpen, setCurrencyIsOpen] = useState(false);
-    // const [currencyValueSelected, setCurrencyValueSelected] = useState(currencyList[2].value);
-
-    // const cryptoSelected = cryptoList.find(p => p.value === currencyValueSelected);
-    // const currencySelected = currencyList.find(p => p.value === currencyValueSelected);
+    const [recipientValueSelected, setRecipientValueSelected] = useState<string>(recipientList[2].value);
 
     const onApplyButtonClick = () => {
         onCloseModal();
