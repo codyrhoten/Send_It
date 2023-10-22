@@ -5,7 +5,7 @@
     "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "sendit",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -20,16 +20,20 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.happynariman.send-it"
+      "bundleIdentifier": "com.happynariman.sendit"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.happynariman.sendit"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
+    },
+    "experiments": {
+      "tsconfigPaths": true
     }
   }
 }
