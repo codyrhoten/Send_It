@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { ConnectWallet, useDisconnect, useConnectionStatus, useAddress, useCreateWalletInstance, useSetConnectionStatus, useSetConnectedWallet, localWallet } from '@thirdweb-dev/react-native';
 import { Ethereum, Mumbai } from '@thirdweb-dev/chains';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Entypo } from '@expo/vector-icons';
 
 import { LoginScreen } from '@/screens';
 import { truncateEthAddress } from '@/utils';
@@ -18,7 +18,6 @@ export function UserHeaderComponent() {
     const setConnectedWallet = useSetConnectedWallet();
 
     const address = useAddress();
-    const onDisconnect = useDisconnect();
     const connectionStatus = useConnectionStatus();
 
     useEffect(() => {
@@ -45,15 +44,11 @@ export function UserHeaderComponent() {
     };
 
     return (<>
-        <BottomModalComponent isVisible={isModalVisible} onClose={() => setIsModalVisible(false)} blurIntensity={100}>
+        <BottomModalComponent title={truncateEthAddress(address?.toString())} isVisible={isModalVisible} onClose={() => setIsModalVisible(false)} blurIntensity={100}>
             <LoginScreen onCloseModal={() => setIsModalVisible(false)} />
         </BottomModalComponent>
 
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => setIsModalVisible(true)} style={{ ...styles.button, marginRight: 5 }}>
-                <AntDesign style={styles.buttonText} name='login' />
-            </TouchableOpacity>
-
             {connectionStatus !== 'connected' && <>
                 {!WALLET_PRIVATE_KEY && <>
                     <ConnectWallet buttonTitle='Connect' />
@@ -65,9 +60,9 @@ export function UserHeaderComponent() {
                 </>}
             </>}
             {connectionStatus === 'connected' && <>
-                <TouchableOpacity onPress={() => onDisconnect()} style={styles.button}>
-                    {/* <Text style={styles.buttonText}></Text> */}
+                <TouchableOpacity onPress={() => setIsModalVisible(true)} style={styles.button}>
                     <Text style={{ ...styles.buttonText, fontSize: 12, fontWeight: 'normal' }}>{truncateEthAddress(address?.toString())}</Text>
+                    <Entypo name="chevron-down" size={18} color="white" />
                 </TouchableOpacity>
             </>}
         </View>
@@ -80,9 +75,9 @@ const styles = StyleSheet.create({
         paddingRight: 10
     },
     button: {
+        flexDirection: 'row',
         alignItems: 'center',
-        //marginHorizontal: 10,
-        paddingHorizontal: 10,
+        paddingHorizontal: 6,
         paddingVertical: 6,
         borderRadius: 8,
         elevation: 3,
@@ -92,5 +87,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '600',
         color: 'white',
+        marginHorizontal: 5,
     },
 });

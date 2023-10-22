@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { ConnectWallet, useAddress, useConnectionStatus, useWallet } from '@thirdweb-dev/react-native';
+import { ConnectWallet, useAddress, useConnectionStatus, useDisconnect, useWallet } from '@thirdweb-dev/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
 import { AntDesign } from '@expo/vector-icons';
 
 import { NextIDService, TwitterService } from '@/services';
-import { TwitterStorageModel } from '@/models';
-import { delay } from '@/utils';
+import { TwitterProfileModel, TwitterStorageModel } from '@/models';
+import { truncateEthAddress } from '@/utils';
 
 const TWITTER_CLIENT_ID = process.env.EXPO_PUBLIC_TWITTER_CLIENT_ID;
 
@@ -24,11 +24,15 @@ const nextIDService = new NextIDService();
 
 export function LoginScreen({ onCloseModal }) {
     const [loading, setLoading] = useState(false);
+    const [twitterError, setTwitterError] = useState(false);
     const [twitter, setTwitter] = useState<TwitterStorageModel>();
 
     const connectionStatus = useConnectionStatus();
+    const onDisconnect = useDisconnect();
     const address = useAddress();
     const wallet = useWallet();
+    console.log('\n\n');
+
 
     const [twitterAuthRequest, twitterAuthSessionResult, startTwitterLoginAsync] = useAuthRequest(
         {
@@ -40,7 +44,7 @@ export function LoginScreen({ onCloseModal }) {
             scopes: [
                 'tweet.read',
                 'tweet.write',
-                'users.read'
+                'users.read',
             ],
         },
         twitterEndpoint
@@ -48,10 +52,15 @@ export function LoginScreen({ onCloseModal }) {
 
     useEffect(() => {
         const loadTwitterInfo = async () => {
-            const twitterStorageString = await AsyncStorage.getItem('twitter');
-            const twitterAccessTokenInfo = twitterStorageString && JSON.parse(twitterStorageString) as TwitterStorageModel;
-            if (new Date() < twitterAccessTokenInfo?.auth?.expirationDate) {
-                setTwitter(twitterAccessTokenInfo);
+            const twitterUsername = await nextIDService.getTwitterUsernameByEvmAddress(address);
+            if (twitterUsername) {
+                const twitterStorageString = await AsyncStorage.getItem('twitter');
+                const twitterAccessTokenInfo = twitterStorageString && JSON.parse(twitterStorageString) as TwitterStorageModel;
+                if (new Date() < new Date(twitterAccessTokenInfo?.auth?.expirationDate)) {
+                    setTwitter(twitterAccessTokenInfo);
+                }
+            } else {
+                await AsyncStorage.removeItem('twitter');
             }
         }
         loadTwitterInfo();
@@ -61,15 +70,12 @@ export function LoginScreen({ onCloseModal }) {
         const fetchTwitterBinding = async (code: string, codeVerifier: string) => {
             setLoading(true);
             try {
+                let twitterProfile: TwitterProfileModel;
                 const accessTokenInfo = await twitterService.getAccessToken(code, codeVerifier);
-                await delay(500);
+                const twitterUsername = await nextIDService.getTwitterUsernameByEvmAddress(address);
 
-                const twitterProfile = await twitterService.getProfile(accessTokenInfo.accessToken);
-                await delay(500);
-
-                const hasBindingTwitterAccount = await nextIDService.hasBindingTwitterAccount(twitterProfile.username, address);
-                console.log('hasBindingTwitterAccount', hasBindingTwitterAccount);
-                if (!hasBindingTwitterAccount) {
+                if (!twitterUsername) {
+                    twitterProfile = await twitterService.getProfile(accessTokenInfo.accessToken);
                     const walletPrivateKey = (await wallet?.getSigner() as any)._signingKey().privateKey;
                     const proofPayload = await nextIDService.getProofPayloadForBindingTwitterAccount(twitterProfile.username, walletPrivateKey);
                     const tweetId = await twitterService.postTweet(accessTokenInfo.accessToken,
@@ -77,6 +83,11 @@ export function LoginScreen({ onCloseModal }) {
 
                     await nextIDService.proofBindingTwitterAccount(twitterProfile.username, tweetId, proofPayload);
                 }
+
+                twitterProfile = twitterProfile ?? {
+                    username: twitterUsername,
+                    profile_image_url: (await twitterService.getProfileByUsername(accessTokenInfo.accessToken, twitterProfile.username))?.profile_image_url,
+                };
 
                 const twitterStorage: TwitterStorageModel = {
                     auth: accessTokenInfo,
@@ -87,17 +98,29 @@ export function LoginScreen({ onCloseModal }) {
                 setTwitter(twitterStorage);
             } catch (error) {
                 console.error(error);
+                setTwitterError(true);
             }
             finally {
                 setLoading(false);
             }
         };
 
-        if (!twitter && twitterAuthSessionResult?.type === 'success') {
+        if (!(twitter || twitterError) && twitterAuthSessionResult?.type === 'success') {
             const { code, state } = twitterAuthSessionResult.params;
             fetchTwitterBinding(code, twitterAuthRequest.codeVerifier);
         }
     }, [twitterAuthSessionResult]);
+
+    const onStartTwitterLoginClick = async () => {
+        setTwitterError(false);
+        await startTwitterLoginAsync();
+    }
+
+    const onDisconnectClick = async () => {
+        await onDisconnect();
+        setTwitter(null);
+        onCloseModal();
+    }
 
     return (
         <View style={styles.container}>
@@ -107,21 +130,23 @@ export function LoginScreen({ onCloseModal }) {
                 </View>
             }
             {!loading && connectionStatus === 'connected' && <>
-                {!twitter?.auth?.accessToken && <>
-                    <TouchableOpacity disabled={!!twitter?.auth?.accessToken} onPress={() => startTwitterLoginAsync()} style={styles.button}>
-                        <Text style={styles.buttonText}>Connect to <AntDesign name='twitter' size={18} color='white' /> Twitter</Text>
-                    </TouchableOpacity>
-                </>}
-                {twitter?.auth?.accessToken && <>
-                    <Text style={{ marginTop: 20 }}>Twitter</Text>
-                    <Text>twitterUserName: {twitter.profile.name ?? twitter.profile.username}</Text>
-                    <Text>twitterAccessToken: {twitter.auth.accessToken}</Text>
-                </>}
-            </>}
-            {/* <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                <Text>{connectionStatus}</Text>
-            </View> */}
+                <View style={{ flexGrow: 1 }}>
+                    {!twitter && <>
+                        <TouchableOpacity onPress={onStartTwitterLoginClick} style={styles.button}>
+                            <Text style={styles.buttonText}>Connect to <AntDesign name='twitter' size={18} color='white' /> Twitter{'\n'} and link your wallet in Next.ID</Text>
+                        </TouchableOpacity>
+                    </>}
+                    {twitter && <View style={{ flexDirection: 'row', alignItems: 'center', }}>
+                        {twitter.profile.profile_image_url && <Image source={{ uri: twitter.profile.profile_image_url }} style={styles.avatar} />}
+                        {!twitter.profile.profile_image_url && <AntDesign name='twitter' size={24} color='black' style={{ marginHorizontal: 10 }} />}
+                        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>@{twitter.profile.username}</Text>
+                    </View>}
+                </View>
 
+                <TouchableOpacity onPress={onDisconnectClick} style={{ ...styles.button, marginTop: 30 }}>
+                    <Text style={styles.buttonText}>Disconnect {truncateEthAddress(address?.toString())}</Text>
+                </TouchableOpacity>
+            </>}
         </View>
     );
 }
@@ -147,8 +172,15 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
     },
     buttonText: {
+        textAlign: 'center',
         fontSize: 16,
         fontWeight: 'bold',
         color: 'white',
+    },
+    avatar: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        marginRight: 10,
     },
 });

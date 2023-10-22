@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ethers } from 'ethers';
 import { ecsign, toRpcSig, keccakFromString, BN } from 'ethereumjs-util';
 
 const SECP256K1_PUBLIC_KEY = process.env.EXPO_PUBLIC_SECP256K1_PUBLIC_KEY;
@@ -8,6 +9,21 @@ export class NextIDService {
 
     constructor() {
 
+    }
+
+    async getProofByEvmAddress(walletAddress: string) {
+        if (!ethers.utils.isAddress(walletAddress))
+            throw new Error('The string passed is not the evm address');
+
+        const response = await axios.get(`${this.baseUrl}/proof?platform=ethereum&identity=${walletAddress}`);
+        const proofs = (response.data as ProofDataModel)?.ids?.flatMap(p => p.proofs);
+        return proofs;
+    }
+
+    async getTwitterUsernameByEvmAddress(walletAddress: string): Promise<string> {
+        const proofs = await this.getProofByEvmAddress(walletAddress);
+        const twitterUsername = proofs.find(p => p.platform === 'twitter')?.identity;
+        return twitterUsername;
     }
 
     async proofBindingTwitterAccount(twitterUsername: string, tweetId: string, proofPayload: ProofPayload): Promise<boolean> {
