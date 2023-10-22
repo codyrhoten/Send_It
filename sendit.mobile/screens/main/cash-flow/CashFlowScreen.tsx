@@ -67,7 +67,7 @@ export function CashFlowScreen() {
                     </BottomModalComponent>
                     <LookingCourierComponent
                         location={currentLocation}
-                        isVisible={isLookingCourierModalVisible} 
+                        isVisible={isLookingCourierModalVisible}
                         onClose={() => setIsLookingCouriersModalVisible(false)} />
 
                     <MapView
@@ -89,11 +89,11 @@ export function CashFlowScreen() {
                             bottom: keyboardHeight ? insets.bottom : MainConstants.TAB_BAR_HEIGHT + insets.bottom
                         }}
                         tint="light"
-                        intensity={50}
+                        intensity={60}
                     >
                         <TouchableOpacity onPress={() => setIsModalVisible(true)}>
                             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ marginHorizontal: 10, color: '#666', fontWeight: '600' }}>100 USDT</Text>
+                                <Text style={{ marginHorizontal: 10, color: '#555', fontWeight: 'bold' }}>100 USDT</Text>
                                 <Image source={require(`../../../assets/tokens/${'usdt'}.png`)} style={{
                                     left: 3,
                                     width: 30,
@@ -124,7 +124,7 @@ export function CashFlowScreen() {
                                     shadowOpacity: 0.25,
                                     shadowRadius: 3.84,
                                 }} />
-                                <Text style={{ marginHorizontal: 10, color: '#666', fontWeight: '600' }}>136.51* $ CAD</Text>
+                                <Text style={{ marginHorizontal: 10, color: '#555', fontWeight: 'bold' }}>136.51* $ CAD</Text>
                             </View>
                         </TouchableOpacity>
                         <TextInput

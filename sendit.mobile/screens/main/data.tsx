@@ -140,7 +140,7 @@ export type ChatModel = {
 export const ChatData: ChatModel[] = [
     {
         id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'First Item',
+        title: 'William Anderson',
         address: '0x61988e87c4d8e9e9e4567d248cad51823b071fd8',
         avatar: require(`../../assets/couriers/1.png`),
         participants: [],
@@ -151,18 +151,18 @@ export const ChatData: ChatModel[] = [
     },
     {
         id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Second Item',
+        title: 'David Clark',
         address: '0xa38d39e4266dfade14336a9ae31e1d16f4e56a95',
         avatar: require(`../../assets/couriers/2.png`),
         participants: [],
-        messages: [],
+        messages: [{ text: 'Thank you.', isMe: false }],
     },
     {
         id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Third Item',
+        title: 'Jennifer Martinez',
         address: '0x3188a469339961f6e3f1ff603b85f8379dc2f227',
         avatar: require(`../../assets/couriers/3.png`),
         participants: [],
-        messages: [],
+        messages: [{ text: 'Fine', isMe: false }],
     },
 ];

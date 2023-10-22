@@ -5,6 +5,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { LocationObjectCoords } from 'expo-location';
 import { CourierModel, courierList, recipientList } from '../../data';
 import { BottomModalComponent } from '@/components';
+import { OrdersABI } from '@/services/abi/orders';
 
 
 const CONTRACT_ADDRESS = process.env.EXPO_PUBLIC_CONTRACT_ADDRESS;
@@ -15,10 +16,9 @@ export function LookingCourierComponent({ isVisible, onClose, location }: {
     location: LocationObjectCoords
 }) {
 
-    //const { contract } = useContract(CONTRACT_ADDRESS);
-    //const { mutateAsync, isLoading, error } = useContractWrite(contract, 'createOrder');
+    const { contract } = useContract(CONTRACT_ADDRESS, OrdersABI);
+    const { mutateAsync, isLoading, error } = useContractWrite(contract, 'assignCourier');
     const [couriers, setCouriers] = useState<CourierModel[]>([]);
-    const _receiver = '0x30CFc3aEBDbd5e1E754B96376e9df33AE2153749';
 
     useEffect(() => {
         if (!isVisible) {
@@ -41,10 +41,9 @@ export function LookingCourierComponent({ isVisible, onClose, location }: {
 
     const onAcceptButtonClick = async (contract: SmartContract, courier: CourierModel) => {
         console.log('contract\n', contract);
-        // await mutateAsync({
-        //     args: [_receiver, 0.01, 'CAD', 'USDT', `${location.latitude},${location.longitude}`]
-        // });
-
+        await mutateAsync({
+            args: [1, courier.address]
+        });
     }
 
     const onSuccessAccept = async () => {
@@ -108,16 +107,17 @@ export function LookingCourierComponent({ isVisible, onClose, location }: {
                                         letterSpacing: 0.5,
                                     }}>{(courier.rate * 100).toFixed(2)} $ CAD</Text>
                                 </View>
-                                {/* <Web3Button
+                                <Web3Button
                                     theme={'dark'}
                                     contractAddress={CONTRACT_ADDRESS}
+                                    contractAbi={OrdersABI}
                                     action={(contract: SmartContract) => onAcceptButtonClick(contract, courier)}
                                     onSuccess={onSuccessAccept}
                                     onError={onErrorAccept}
                                 >
                                     Accept
-                                </Web3Button> */}
-                                <TouchableOpacity style={{
+                                </Web3Button>
+                                {/* <TouchableOpacity style={{
                                     backgroundColor: '#add88d',
                                     justifyContent: 'center',
                                     paddingHorizontal: 14,
@@ -131,7 +131,7 @@ export function LookingCourierComponent({ isVisible, onClose, location }: {
                                         fontWeight: '600',
                                         color: 'black',
                                     }}>Accept</Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
 
 
                             </View>)}

@@ -15,7 +15,7 @@ export const ChatItemComponent = ({ chat }) => {
                     <Text style={{ fontSize: 12 }}>{truncateEthAddress(chat.address)}</Text>
                 </View>
 
-                <Text style={styles.lastMessage}>{chat.id}</Text>
+                <Text style={styles.lastMessage}>{chat.messages[chat.messages.length - 1]?.text}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     },
     chatInfo: {
         marginLeft: 10,
+        flexGrow: 1,
     },
     chatName: {
         flexGrow: 1,

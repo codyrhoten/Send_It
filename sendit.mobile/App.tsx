@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { ThirdwebProvider, localWallet, metamaskWallet, rainbowWallet } from '@thirdweb-dev/react-native';
+import { ThirdwebProvider, localWallet, metamaskWallet, rainbowWallet, trustWallet } from '@thirdweb-dev/react-native';
 import { Ethereum, Mumbai } from '@thirdweb-dev/chains';
 
 import { useLoadedAssets } from './hooks/useLoadedAssets';
@@ -23,7 +23,7 @@ export default function App() {
                 activeChain={activeChain}
                 supportedChains={[activeChain]}
                 clientId={THIRDWEB_CLIENT_ID}
-                supportedWallets={[metamaskWallet(), rainbowWallet(), localWallet()]}
+                supportedWallets={[metamaskWallet(), rainbowWallet(), trustWallet(), localWallet()]}
             >
                 <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
                     <SafeAreaProvider>
