@@ -100,7 +100,6 @@ BenchmarkDotNet.Artifacts/
 # .NET Core
 project.lock.json
 project.fragment.lock.json
-artifacts/
 **/Properties/launchSettings.json
 
 *_i.c
@@ -428,3 +427,13 @@ web-report/
 /.pnp
 .pnp.js
 # @end @expo/next-adapter
+
+
+# Hardhat files
+cache
+coverage.json
+typechain
+typechain-types
+
+
+debug.md
