@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { TwitterAuthModel, TwitterProfileModel } from '@/models';
 
+const TWITTER_API_KEY = process.env.EXPO_PUBLIC_TWITTER_API_KEY;
+const TWITTER_API_KEY_SECRET = process.env.EXPO_PUBLIC_TWITTER_API_KEY_SECRET;
 const TWITTER_CLIENT_ID = process.env.EXPO_PUBLIC_TWITTER_CLIENT_ID;
 const TWITTER_CLIENT_REDIRECT_URI = process.env.EXPO_PUBLIC_TWITTER_CLIENT_REDIRECT_URI;
 
 export class TwitterService {
-    private readonly baseUrl: string = 'https://api.twitter.com/2';
+    private readonly baseUrl: string = 'https://api.twitter.com';
 
     constructor() {
 
@@ -22,7 +24,7 @@ export class TwitterService {
 
             const response = await axios({
                 method: 'POST',
-                url: `${this.baseUrl}/oauth2/token`,
+                url: `${this.baseUrl}/2/oauth2/token`,
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
@@ -43,7 +45,7 @@ export class TwitterService {
 
     async getProfile(accessToken: string): Promise<TwitterProfileModel> {
         try {
-            const response = await axios.get(`${this.baseUrl}/users/me`, {
+            const response = await axios.get(`${this.baseUrl}/2/users/me`, {
                 headers: { Authorization: `Bearer ${accessToken}`, },
                 params: {
                     'user.fields': 'profile_image_url',
@@ -58,7 +60,7 @@ export class TwitterService {
 
     async getProfileByUsername(accessToken, username) {
         try {
-            const response = await axios.get(`${this.baseUrl}/users/by/username/${username}`, {
+            const response = await axios.get(`${this.baseUrl}/2/users/by/username/${username}`, {
                 headers: { Authorization: `Bearer ${accessToken}`, },
                 params: {
                     'user.fields': 'profile_image_url',
@@ -74,7 +76,7 @@ export class TwitterService {
 
     async postTweet(accessToken: string, text: string): Promise<string> {
         try {
-            const response = await axios.post(`${this.baseUrl}/tweets`, { text }, {
+            const response = await axios.post(`${this.baseUrl}/2/tweets`, { text }, {
                 headers: { Authorization: `Bearer ${accessToken}`, }
             });
             return response.data.data.id;
@@ -83,5 +85,20 @@ export class TwitterService {
             throw error;
         }
     }
+
+    async getBearerToken() {
+        const credentials = `${TWITTER_API_KEY}:${TWITTER_API_KEY_SECRET}`;
+        const encodedCredentials = Buffer.from(credentials).toString('base64');
+
+        const response = await axios.post(`${this.baseUrl}/oauth2/token`, null, {
+          headers: {
+            Authorization: `Basic ${encodedCredentials}`,
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+          },
+          data: 'grant_type=client_credentials',
+        });
+      
+        return response.data.access_token;
+      };
 
 }

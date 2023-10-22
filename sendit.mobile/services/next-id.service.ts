@@ -62,30 +62,31 @@ export class NextIDService {
             }
         });
         const content: {
-            post_content: any,
+            post_content: {
+                default: string,
+                en_US: string,
+                zh_CN: string
+            },
             sign_payload: string,
             uuid: string,
             created_at: number
         } = response.data;
 
-        console.log('\n\ncontent', content);
         const signature = await this.generateSignature(content.sign_payload, walletPrivateKey);
 
         return {
-            signature,
             uuid: content.uuid,
-            created_at: content.created_at
+            created_at: content.created_at,
+            post_content: content.post_content.default.replace('%SIG_BASE64%', signature),
         }
     }
 
     private async generateSignature(sign_payload: string, walletPrivateKey: string) {
         const message = Buffer.from(sign_payload, 'utf8');
-
-        const secretKey = Buffer.from(walletPrivateKey, 'hex');
+        const secretKey = Buffer.from(walletPrivateKey.slice(2), 'hex');
         const signature = await this.personalSign(message, secretKey);
-
-        console.log(`\n\nSignature: 0x${signature.toString('hex')}`);
-        console.log(`\n\nSignature(base64): ${signature.toString('base64')}`);
+        //console.log(`\n\nSignature: 0x${signature.toString('hex')}`);
+        //console.log(`\n\nSignature(base64): ${signature.toString('base64')}`);
         return signature.toString('base64');
     }
 
@@ -99,9 +100,9 @@ export class NextIDService {
 
 
 interface ProofPayload {
-    signature: string;
     uuid: string;
     created_at: number;
+    post_content: string;
 }
 
 interface Proof {

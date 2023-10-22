@@ -78,8 +78,7 @@ export function LoginScreen({ onCloseModal }) {
                     twitterProfile = await twitterService.getProfile(accessTokenInfo.accessToken);
                     const walletPrivateKey = (await wallet?.getSigner() as any)._signingKey().privateKey;
                     const proofPayload = await nextIDService.getProofPayloadForBindingTwitterAccount(twitterProfile.username, walletPrivateKey);
-                    const tweetId = await twitterService.postTweet(accessTokenInfo.accessToken,
-                        `🎭 Verifying my Twitter ID @${twitterProfile.username} for @NextDotID.\nSig: ${proofPayload.signature} \n\nNext.ID YOUR DIGITAL IDENTITIES IN ONE PLACE`);
+                    const tweetId = await twitterService.postTweet(accessTokenInfo.accessToken, proofPayload.post_content);
 
                     await nextIDService.proofBindingTwitterAccount(twitterProfile.username, tweetId, proofPayload);
                 }
@@ -97,7 +96,7 @@ export function LoginScreen({ onCloseModal }) {
                 await AsyncStorage.setItem('twitter', JSON.stringify(twitterStorage));
                 setTwitter(twitterStorage);
             } catch (error) {
-                console.error(error);
+                console.error(JSON.stringify(error, null, 2));
                 setTwitterError(true);
             }
             finally {
