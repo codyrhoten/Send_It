@@ -8,6 +8,8 @@ import { Ethereum, Mumbai } from '@thirdweb-dev/chains';
 import { useLoadedAssets } from './hooks/useLoadedAssets';
 import Routes from './navigation/Routes';
 
+const THIRDWEB_CLIENT_ID = process.env.EXPO_PUBLIC_THIRDWEB_CLIENT_ID;
+
 export default function App() {
     const activeChain = Mumbai;
     const isLoadingComplete = useLoadedAssets();
@@ -20,7 +22,7 @@ export default function App() {
             <ThirdwebProvider
                 activeChain={activeChain}
                 supportedChains={[activeChain]}
-                clientId='15a50beb120642e4b6f7c5b62c9dbfe9'
+                clientId={THIRDWEB_CLIENT_ID}
                 supportedWallets={[metamaskWallet(), rainbowWallet(), localWallet()]}
             >
                 <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>

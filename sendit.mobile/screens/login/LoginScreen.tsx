@@ -63,8 +63,10 @@ export function LoginScreen({ onCloseModal }) {
                 await AsyncStorage.removeItem('twitter');
             }
         }
-        loadTwitterInfo();
-    }, []);
+        if (address) {
+            loadTwitterInfo();
+        }
+    }, [address]);
 
     useEffect(() => {
         const fetchTwitterBinding = async (code: string, codeVerifier: string) => {
@@ -85,7 +87,7 @@ export function LoginScreen({ onCloseModal }) {
 
                 twitterProfile = twitterProfile ?? {
                     username: twitterUsername,
-                    profile_image_url: (await twitterService.getProfileByUsername(accessTokenInfo.accessToken, twitterProfile.username))?.profile_image_url,
+                    //profile_image_url: (await twitterService.getProfileByUsername(accessTokenInfo.accessToken, twitterProfile.username))?.profile_image_url,
                 };
 
                 const twitterStorage: TwitterStorageModel = {

@@ -65,7 +65,10 @@ export function CashFlowScreen() {
                     <BottomModalComponent title='I want to' isVisible={isModalVisible} onClose={() => setIsModalVisible(false)} titleAlign='left' blurIntensity={100}>
                         <CashFlowPicker onCloseModal={() => setIsModalVisible(false)} />
                     </BottomModalComponent>
-                    <LookingCourierComponent isVisible={isLookingCourierModalVisible} onClose={() => setIsLookingCouriersModalVisible(false)} />
+                    <LookingCourierComponent
+                        location={currentLocation}
+                        isVisible={isLookingCourierModalVisible} 
+                        onClose={() => setIsLookingCouriersModalVisible(false)} />
 
                     <MapView
                         ref={map}

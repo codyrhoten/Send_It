@@ -1,12 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { SmartContract, Web3Button, useContract, useContractWrite } from '@thirdweb-dev/react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { courierList, recipientList } from '../../data';
+import { LocationObjectCoords } from 'expo-location';
+import { CourierModel, courierList, recipientList } from '../../data';
 import { BottomModalComponent } from '@/components';
 
-export function LookingCourierComponent({ isVisible, onClose }) {
 
-    const [couriers, setCouriers] = useState([]);
+const CONTRACT_ADDRESS = process.env.EXPO_PUBLIC_CONTRACT_ADDRESS;
+
+export function LookingCourierComponent({ isVisible, onClose, location }: {
+    isVisible: boolean,
+    onClose: (event?: any) => void,
+    location: LocationObjectCoords
+}) {
+
+    //const { contract } = useContract(CONTRACT_ADDRESS);
+    //const { mutateAsync, isLoading, error } = useContractWrite(contract, 'createOrder');
+    const [couriers, setCouriers] = useState<CourierModel[]>([]);
+    const _receiver = '0x30CFc3aEBDbd5e1E754B96376e9df33AE2153749';
 
     useEffect(() => {
         if (!isVisible) {
@@ -27,6 +39,23 @@ export function LookingCourierComponent({ isVisible, onClose }) {
         onClose();
     }
 
+    const onAcceptButtonClick = async (contract: SmartContract, courier: CourierModel) => {
+        console.log('contract\n', contract);
+        // await mutateAsync({
+        //     args: [_receiver, 0.01, 'CAD', 'USDT', `${location.latitude},${location.longitude}`]
+        // });
+
+    }
+
+    const onSuccessAccept = async () => {
+        Alert.alert('Success', 'The request was successfully registered in the blockchain network', [{ text: 'OK' }]);
+    }
+
+    const onErrorAccept = async (error: Error) => {
+        console.error(JSON.stringify(error, null, 2));
+        Alert.alert('Error', error.message, [{ text: 'OK' }]);
+    }
+
     return (
         <BottomModalComponent isShowHeader={false} isVisible={isVisible} onClose={onClose} titleAlign='left' blurIntensity={100}>
             <View style={styles.content}>
@@ -40,8 +69,8 @@ export function LookingCourierComponent({ isVisible, onClose }) {
                                 marginBottom: 30,
                             }}>Looking for exchangers</Text>}
 
-                        {couriers.map(c =>
-                            <View key={c.value} style={{
+                        {couriers.map(courier =>
+                            <View key={courier.value} style={{
                                 flexDirection: 'row',
                                 alignContent: 'flex-start',
                                 backgroundColor: '#eee9',
@@ -51,7 +80,7 @@ export function LookingCourierComponent({ isVisible, onClose }) {
                                 borderRadius: 5,
                                 padding: 10
                             }}>
-                                <Image source={c.icon} style={{
+                                <Image source={courier.icon} style={{
                                     width: 40,
                                     height: 40,
                                     borderRadius: 20,
@@ -66,19 +95,28 @@ export function LookingCourierComponent({ isVisible, onClose }) {
                                     shadowRadius: 3.84,
                                 }} />
                                 <View style={{ marginHorizontal: 10, flexGrow: 1, justifyContent: 'center' }}>
-                                    <Text>{c.label}</Text>
+                                    <Text>{courier.label}</Text>
                                     <Text style={{
                                         fontSize: 14,
                                         color: '#666',
                                         letterSpacing: 0.5,
-                                    }}>Rate: {c.rate}</Text>
+                                    }}>Rate: {courier.rate}</Text>
                                     <Text style={{
                                         fontSize: 14,
                                         color: '#666',
                                         fontWeight: '600',
                                         letterSpacing: 0.5,
-                                    }}>{(c.rate * 100).toFixed(2)} $ CAD</Text>
+                                    }}>{(courier.rate * 100).toFixed(2)} $ CAD</Text>
                                 </View>
+                                {/* <Web3Button
+                                    theme={'dark'}
+                                    contractAddress={CONTRACT_ADDRESS}
+                                    action={(contract: SmartContract) => onAcceptButtonClick(contract, courier)}
+                                    onSuccess={onSuccessAccept}
+                                    onError={onErrorAccept}
+                                >
+                                    Accept
+                                </Web3Button> */}
                                 <TouchableOpacity style={{
                                     backgroundColor: '#add88d',
                                     justifyContent: 'center',
@@ -87,7 +125,7 @@ export function LookingCourierComponent({ isVisible, onClose }) {
                                     borderRadius: 5,
                                     borderWidth: 1,
                                     elevation: 5,
-                                }} onPress={() => { }}>
+                                }} onPress={() => onSuccessAccept()}>
                                     <Text style={{
                                         letterSpacing: 0.5,
                                         fontWeight: '600',
