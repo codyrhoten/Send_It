@@ -27,17 +27,25 @@ export class NextIDService {
     }
 
     async proofBindingTwitterAccount(twitterUsername: string, tweetId: string, proofPayload: ProofPayload): Promise<boolean> {
-        const response = await axios.post(`${this.baseUrl}/proof`, {
-            action: 'create',
-            platform: 'twitter',
-            identity: twitterUsername,
-            public_key: SECP256K1_PUBLIC_KEY,
-            proof_location: tweetId,
-            extra: {},
-            uuid: proofPayload.uuid,
-            created_at: proofPayload.created_at
+        const rawResponse = await fetch(`${this.baseUrl}/proof`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                action: 'create',
+                platform: 'twitter',
+                identity: twitterUsername,
+                public_key: SECP256K1_PUBLIC_KEY,
+                proof_location: tweetId,
+                extra: {},
+                uuid: proofPayload.uuid,
+                created_at: proofPayload.created_at
+            })
         });
-        return response.data;
+        const content = await rawResponse.json();
+        return content;
     }
 
     async hasBindingTwitterAccount(twitterUsername: string, walletAddress: string): Promise<boolean> {
