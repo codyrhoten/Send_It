@@ -100,7 +100,6 @@ BenchmarkDotNet.Artifacts/
 # .NET Core
 project.lock.json
 project.fragment.lock.json
-artifacts/
 **/Properties/launchSettings.json
 
 *_i.c
@@ -432,7 +431,6 @@ web-report/
 
 # Hardhat files
 cache
-artifacts
 coverage.json
 typechain
 typechain-types
