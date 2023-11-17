@@ -13,5 +13,5 @@ for front end : Used react native SDK - to coed the front end UI for sending and
 EXPO: to display graphical interface to mobile,
 Third web : for wallet connection and integration, like metamask and rainbow kit
 Ether JS: interact with frontend and smart contract
-NextID : for social media onboarding integration like X twitter
+NextID : for social media onboarding integration like X twitter for web2 onboarding  
 Backend : Polygon smart contract , Mombai testnet network, hardhat framework
